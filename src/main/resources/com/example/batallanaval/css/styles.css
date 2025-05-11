@@ -1,0 +1,111 @@
+
+/* Fondo general del juego */
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('https://example.com/jungle-background.jpg'); /* Reemplázalo con tu imagen */
+    background-size: cover;
+    font-family: 'Trebuchet MS', sans-serif;
+    color: #2f4f2f;
+}
+
+/* Encabezado */
+header {
+    text-align: center;
+    padding: 1rem;
+    background-color: rgba(34, 139, 34, 0.8);
+    color: #f0fff0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Tableros */
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+    gap: 2px;
+    margin: 1rem auto;
+    background-color: rgba(0, 100, 0, 0.4);
+    border: 4px solid #2e8b57;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Celdas del tablero */
+.cell {
+    width: 40px;
+    height: 40px;
+    background-color: #8fbc8f;
+    border: 1px solid #556b2f;
+    transition: background-color 0.3s ease;
+}
+
+.cell:hover {
+    background-color: #66cdaa;
+    cursor: pointer;
+}
+
+/* Celdas impactadas */
+.cell.hit {
+    background-color: #a52a2a;
+    background-image: url('https://example.com/fire-icon.png');
+    background-size: cover;
+}
+
+/* Celdas fallidas */
+.cell.miss {
+    background-color: #b0c4de;
+    background-image: url('https://example.com/splash-icon.png');
+    background-size: cover;
+}
+
+/* Barcos (opcional para mostrar al jugador) */
+.cell.ship {
+    background-color: #2f4f4f;
+}
+
+/* Panel de control o botones */
+.controls {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+button {
+    background-color: #228b22;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    margin: 0.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #32cd32;
+    cursor: pointer;
+}
+
+/* Información del juego */
+.status {
+    text-align: center;
+    margin: 1rem;
+    font-size: 1.2rem;
+    color: #006400;
+    background-color: rgba(240, 255, 240, 0.6);
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .board {
+        grid-template-columns: repeat(10, 30px);
+        grid-template-rows: repeat(10, 30px);
+    }
+
+    .cell {
+        width: 30px;
+        height: 30px;
+    }
+}
