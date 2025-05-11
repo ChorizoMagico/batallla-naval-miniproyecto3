@@ -6,12 +6,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HomeStage {
+public class StartStage {
 
-    protected static HomeStage instance;
+    protected static StartStage instance;
 
-    public static HomeStage getInstance(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HomeStage.class.getResource("/com/example/batallanaval/FXML/start-view.fxml"));
+    public static StartStage getInstance(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(StartStage.class.getResource("/com/example/batallanaval/FXML/start-view.fxml"));
 
         if(instance == null){
             Scene scene = new Scene(fxmlLoader.load());
@@ -20,7 +20,7 @@ public class HomeStage {
             stage.setResizable(false);
             stage.show();
 
-            instance = new HomeStage();
+            instance = new StartStage();
         }
         return instance;
     }
