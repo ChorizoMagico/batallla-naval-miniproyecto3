@@ -1,5 +1,6 @@
 package com.example.batallanaval.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,6 +39,23 @@ public class StartViewController {
 
     private void handlePlay(ActionEvent actionEvent) {
         // Cierra el fxml actual y abre el fxml del juego
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
+            Parent root = fxmlLoader.load();
+
+            // Cerramos la scene
+            GameController gameController = fxmlLoader.getController();
+            Stage currentStage = (Stage) startPlayButton.getScene().getWindow();
+            gameController.setMainScene(currentStage.getScene());
+
+            // Mostramos la neuva scene
+            Scene gameScene = new Scene(root);
+            currentStage.setScene(gameScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("Se termino la excepcion.");
+        }
     }
 
     private void handleContinue(ActionEvent actionEvent) {
@@ -60,11 +78,11 @@ public class StartViewController {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            System.out.println("Se termino la excepecion.");
+            System.out.println("Se termino la excepcion.");
         }
     }
-
+    // Cierra la aplicacion
     private void handleExit (ActionEvent actionEvent) {
-
+        Platform.exit();
     }
 }
