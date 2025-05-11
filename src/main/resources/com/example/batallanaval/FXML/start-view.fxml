@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.batallanaval.controller.StartViewController">
+   <children>
+      <VBox alignment="BASELINE_CENTER" layoutY="1.0" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="174.0" text="COCODRILE BOMBARDINO" textAlignment="CENTER" />
+            <Button alignment="CENTER" mnemonicParsing="false" text="Iniciar Juego" textAlignment="CENTER" fx:id="startPlayButton"/>
+            <Button alignment="CENTER" mnemonicParsing="false" text="Continuar Juego" textAlignment="CENTER" fx:id="continuePlayButton"/>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Instrucciones" textAlignment="CENTER" fx:id="instructionsButton" />
+            <Button alignment="CENTER" mnemonicParsing="false" text="Salir" textAlignment="CENTER" fx:id="exitPlayButton"/>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
