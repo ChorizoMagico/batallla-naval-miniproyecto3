@@ -18,6 +18,22 @@ public class LogicBoard {
     public LogicBoard() {
         board = new int[BOARD_SIZE][BOARD_SIZE];
         boats = new ArrayList<>();
+
+        for(int i =0; i < 10; i++ ){
+            if(i < 1){
+                boats.add(new Boat(4, 4, false));
+                boats.get(i).createAircraftCarrier();
+            }
+            else if(i < 3){
+                boats.add(new Boat(3, 3, false));
+                boats.get(i).createSubmarine();}
+            else if (i < 6) {
+                boats.add(new Boat(2, 2, false));
+                boats.get(i).createDestructor();}
+            else if (i < 10) {
+                boats.add(new Boat(1, 1, false));
+                boats.get(i).createFrigate();}
+        }
     }
 
     public boolean placeBoat(int row, int col, Boat boat) {
