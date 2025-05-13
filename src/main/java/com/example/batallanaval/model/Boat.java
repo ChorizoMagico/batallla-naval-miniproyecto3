@@ -8,7 +8,8 @@ import javafx.scene.shape.Rectangle;
 public class Boat {
     private final int size;
     private int resistance;
-    private final boolean isHorizontal;
+    private boolean isHorizontal;
+    private String type;
     private Group shape;
 
     public Boat(int size, int resistance, boolean isHorizontal) {
@@ -87,6 +88,7 @@ public class Boat {
 
         // Agregar todo al grupo
         shape.getChildren().addAll(sea, principal, pista, airplane1, airplane2, airplane3, tower);
+        type = "aircraft";
     }
 
     public void createSubmarine() {
@@ -139,6 +141,8 @@ public class Boat {
         helix.setStroke(Color.BLACK);
 
         shape.getChildren().addAll(water, baseBody, camuflage, tower, helix);
+
+        type = "submarine";
     }
 
     public void createDestructor(){
@@ -191,6 +195,7 @@ public class Boat {
         canon.setStroke(Color.BLACK);
 
         shape.getChildren().addAll(sea, base, camuflage, tower, canon);
+        type = "destructor";
     }
 
     public void createFrigate(){
@@ -231,10 +236,26 @@ public class Boat {
         tower.setStroke(Color.BLACK);
 
         shape.getChildren().addAll(sea, base, camuflage, tower);
+        type = "frigate";
+    }
+
+    public void rotateTheBoat(){
+        if(isHorizontal == true){
+            isHorizontal = false;
+            shape.setRotate(0);
+        } else {
+            isHorizontal = true;
+            shape.setRotate(90);
+        }
     }
 
     public Group getShape(){
         return shape;
     }
+
+    public String getType(){
+        return type;
+    }
+
 
 }

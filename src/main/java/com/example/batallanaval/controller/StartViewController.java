@@ -40,13 +40,13 @@ public class StartViewController {
     private void handlePlay(ActionEvent actionEvent) {
         // Cierra el fxml actual y abre el fxml del juego
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/preparation-view.fxml"));
             Parent root = fxmlLoader.load();
 
             // Cerramos la scene
-            GameController gameController = fxmlLoader.getController();
+            PreparationViewController preparationViewController = fxmlLoader.getController();
             Stage currentStage = (Stage) startPlayButton.getScene().getWindow();
-            gameController.setMainScene(currentStage.getScene());
+            preparationViewController.setMainScene(currentStage.getScene());
 
             // Mostramos la neuva scene
             Scene gameScene = new Scene(root);
