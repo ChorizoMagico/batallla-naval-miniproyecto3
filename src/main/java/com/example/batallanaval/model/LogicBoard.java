@@ -8,6 +8,7 @@ public class LogicBoard {
     private static final int BOARD_SIZE = 10;
     private int[][] board;
     private List<Boat> boats;
+    private ArrayList<Boat> availableBoats;
 
     private static final int WATER = 0;
     private static final int BOAT = 1;
@@ -18,22 +19,27 @@ public class LogicBoard {
     public LogicBoard() {
         board = new int[BOARD_SIZE][BOARD_SIZE];
         boats = new ArrayList<>();
+        availableBoats = new ArrayList<>();
 
         for(int i =0; i < 10; i++ ){
             if(i < 1){
-                boats.add(new Boat(4, 4, false));
-                boats.get(i).createAircraftCarrier();
+                availableBoats.add(new Boat(4, 4, false));
+                availableBoats.get(i).createAircraftCarrier();
             }
             else if(i < 3){
-                boats.add(new Boat(3, 3, false));
-                boats.get(i).createSubmarine();}
+                availableBoats.add(new Boat(3, 3, false));
+                availableBoats.get(i).createSubmarine();}
             else if (i < 6) {
-                boats.add(new Boat(2, 2, false));
-                boats.get(i).createDestructor();}
+                availableBoats.add(new Boat(2, 2, false));
+                availableBoats.get(i).createDestructor();}
             else if (i < 10) {
-                boats.add(new Boat(1, 1, false));
-                boats.get(i).createFrigate();}
+                availableBoats.add(new Boat(1, 1, false));
+                availableBoats.get(i).createFrigate();}
         }
+    }
+
+    public ArrayList<Boat> getAvailableBoats() {
+        return availableBoats;
     }
 
     public boolean placeBoat(int row, int col, Boat boat) {

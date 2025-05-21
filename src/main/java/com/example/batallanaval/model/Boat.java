@@ -17,6 +17,7 @@ public class Boat {
         this.resistance = resistance;
         this.isHorizontal = isHorizontal;
         shape = new Group();
+        shape.setPickOnBounds(true);
     }
 
     public int getSize() {
