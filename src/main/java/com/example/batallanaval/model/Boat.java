@@ -13,11 +13,13 @@ public class Boat {
     private int resistance;
     private boolean isHorizontal;
     private String type;
+    private int[] position;
     private Group shape;
 
 
     public Boat(int size, int resistance, boolean isHorizontal) {
         this.size = size;
+        this.position = new int[2];
         this.resistance = resistance;
         this.isHorizontal = isHorizontal;
         shape = new Group();
@@ -42,6 +44,15 @@ public class Boat {
         }
     }
 
+    public void setPosition(int row, int col) {
+        position[0] = row;
+        position[1] = col;
+    }
+
+    public int[] getPosition() {
+        return position;
+    }
+
     public void createAircraftCarrier() {
 
         // Mar
@@ -57,7 +68,7 @@ public class Boat {
         ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/com/example/batallanaval/aircarrier.png"))));
 
         shape.getChildren().addAll(water, imageView);
-        type = "aircraft";
+        type = "Portaviones";
     }
 
     public void createSubmarine() {
@@ -73,7 +84,7 @@ public class Boat {
         ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/com/example/batallanaval/submarine.png"))));
 
         shape.getChildren().addAll(water, imageView);
-        type = "submarine";
+        type = "Submarino";
     }
 
     public void createDestructor(){
@@ -88,7 +99,7 @@ public class Boat {
         ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/com/example/batallanaval/destructor.png"))));
 
         shape.getChildren().addAll(water, imageView);
-        type = "destructor";
+        type = "Destructor";
     }
 
     public void createFrigate(){
@@ -103,7 +114,7 @@ public class Boat {
         ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/com/example/batallanaval/frigate.png"))));
 
         shape.getChildren().addAll(water, imageView);
-        type = "frigate";
+        type = "Fragata";
     }
 
     public void rotateTheBoat(){
@@ -123,6 +134,5 @@ public class Boat {
     public String getType(){
         return type;
     }
-
 
 }
