@@ -2,39 +2,52 @@ package com.example.batallanaval.controller;
 
 import com.example.batallanaval.model.Boat;
 import com.example.batallanaval.model.LogicBoard;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeType;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
+
+
 
 public class PreparationViewController {
 
     private Scene mainScene;
-    private Group waterSquare[];
-    private Group defaultSquares[][];
+    private StackPane[][] boatsStack;
+    private StackPane[] boatsStackAvailable;
     private LogicBoard playerBoard;
 
     @FXML
-    private FlowPane showShapes;
+    private GridPane showPane;
 
     @FXML
     private GridPane boardGrid;
+
+    @FXML
+    private AnchorPane boatPane;
+
+    @FXML
+    private Label boatLabel;
+
+    @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
+    private Label errorLabel;
 
     @FXML
     private Button playButton;
@@ -50,16 +63,63 @@ public class PreparationViewController {
     private void initialize(){
         returnButton.setOnAction(this::handleReturn);
         playButton.setOnAction(this::handlePlay);
+        anchorPane.setOnKeyPressed(this::handleReturnBoat);
         playerBoard = new LogicBoard();
-        showShapesFlowPane();
-        createWaterSquare();
+        createShowPane();
+        loadShowBoatPane();
         loadGridPaneWithWater();
+        handleLoadBoard();
     }
 
     @FXML
     private void handleReturn(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(mainScene);
+    }
+
+    @FXML
+    void handleReturnBoat(KeyEvent event) {
+        if(event.getCode()== KeyCode.Z && event.isControlDown()){
+            if(playerBoard.isBoatSelected()){
+                playerBoard.returnBoat();
+                loadShowPane();
+                loadShowBoatPane();
+            }
+        }
+    }
+
+    private void createShowPane(){
+        showPane.getChildren().clear();
+        boatsStackAvailable = new StackPane[10];
+        for (int i = 0; i < 10; i++) {
+            boatsStackAvailable[i] = new StackPane();
+            boatsStackAvailable[i].setStyle("-fx-border-color: black; -fx-border-width: 1;");
+            boatsStackAvailable[i].setAlignment(Pos.TOP_LEFT);
+            showPane.add(boatsStackAvailable[i], i % 5, i / 5);
+        }
+        loadShowPane();
+        handleBoatSelection();
+    }
+
+    private void loadShowPane(){
+        int size = playerBoard.getAvailableBoats().size();
+        for(int i = 0; i < 10; i++){
+            boatsStackAvailable[i].getChildren().clear();
+            if(i < size){
+                boatsStackAvailable[i].getChildren().add(playerBoard.getAvailableBoats().get(i).getShape());
+            }
+        }
+    }
+
+    private void loadShowBoatPane(){
+        boatPane.getChildren().clear();
+        if(playerBoard.isBoatSelected()){
+            boatPane.getChildren().add(playerBoard.getSelectedBoat().getShape());
+            boatLabel.setText(playerBoard.getSelectedBoat().getType());
+        }
+        else{
+            boatLabel.setText("Barco sin seleccionar");
+        }
     }
 
     @FXML
@@ -84,63 +144,71 @@ public class PreparationViewController {
         }
     }
 
-    private void showShapesFlowPane(){
-        for(int i=0; i<10; i++){
-            showShapes.getChildren().add(playerBoard.getBoats().get(i).getShape());
+    private void handleBoatSelection(){
+        for (int i = 0; i < boatsStackAvailable.length; i++) {
+            final int index = i;
+            boatsStackAvailable[i].setOnMouseClicked(new EventHandler<MouseEvent>(){
+                @Override
+                public void handle(MouseEvent event) {
+                    if(!boatsStackAvailable[index].getChildren().isEmpty()){
+                        playerBoard.selectBoat(index);
+                        loadShowPane();
+                        loadShowBoatPane();
+                        errorLabel.setText("Barco seleccionado con éxito!");
+                    }
+                }
+            });
         }
     }
 
-    private void createWaterSquare() {
-        waterSquare = new Group[100];
-        for(int i=0; i<100; i++) {
-            waterSquare[i] = new Group();
-            Rectangle water = new Rectangle(41.0, 41.0);
-            water.setArcWidth(5.0);
-            water.setArcHeight(5.0);
-            water.setFill(Color.DODGERBLUE);
-            water.setStroke(Color.BLACK);
-            water.setStrokeType(StrokeType.INSIDE);
-            water.setStrokeWidth(1.0);
-
-            waterSquare[i].getChildren().add(water);
+    private void handleLoadBoard() {
+        for (int i = 0; i < 10; i++) {
+            for(int j = 0; j < 10; j++){
+                final StackPane stackPane = boatsStack[i][j];
+                final int index = i;
+                final int index2 = j;
+                stackPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (playerBoard.isBoatSelected() && playerBoard.placeBoat(index,index2, playerBoard.getSelectedBoat())){
+                            playerBoard.emptySelectedBoat();
+                            loadShowBoatPane();
+                            loadGridPane();
+                            errorLabel.setText("Barco colocado con éxito!");
+                        }else{
+                            if(playerBoard.isBoatSelected()){
+                                errorLabel.setText("Error al colocar el barco :(");
+                            }
+                        }
+                    }
+                });
+            }
         }
-
     }
+
+    private void loadGridPane() {
+        int[][] board = playerBoard.getBoard();
+        for (int i = 0; i < 10; i++) {
+            for(int j = 0; j < 10; j++){
+                if(board[i][j] == 1 && boatsStack[i][j].getChildren().isEmpty()) {
+                    Boat boat = playerBoard.findBoatAt(i, j);
+                    boatsStack[i][j].getChildren().add(boat.getShape());
+                }
+            }
+        }
+    }
+
 
     private void loadGridPaneWithWater() {
-        int counter = 0;
-        defaultSquares = new Group[10][10];
+        boardGrid.getChildren().clear();
+        boatsStack = new StackPane[10][10];
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                defaultSquares[i][j] = waterSquare[counter];
-                boardGrid.add(defaultSquares[i][j], j, i);
-                counter++;
+                boatsStack[i][j] = new StackPane();
+                boatsStack[i][j].setStyle("-fx-background-color: dodgerblue; -fx-border-color: black; -fx-border-width: 1;");
+                boatsStack[i][j].setAlignment(Pos.TOP_LEFT);
+                boardGrid.add(boatsStack[i][j], j, i);
             }
         }
-    }
-
-    public void setSquareGraphic(int row, int column, Group newShape) {
-        // Buscar nodos en esa celda
-        Node presentNode = null;
-        ObservableList<Node> children = boardGrid.getChildren();
-
-        for (int i = 0; i < children.size(); i++) {
-            Node node = children.get(i);
-            Integer colIndex = GridPane.getColumnIndex(node);
-            Integer rowIndex = GridPane.getRowIndex(node);
-
-            if ((colIndex != null && colIndex == column) && (rowIndex != null && rowIndex == row)) {
-                presentNode = node;
-                break;
-            }
-        }
-
-        // Si hay un nodo, se elimina
-        if (presentNode != null) {
-            boardGrid.getChildren().remove(presentNode);
-        }
-
-        // Agrega el nuevo nodo
-        boardGrid.add(newShape, column, row);
     }
 }
