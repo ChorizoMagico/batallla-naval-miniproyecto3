@@ -3,16 +3,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.batallanaval.controller.StartViewController">
    <children>
-      <Button fx:id="startPlayButton" alignment="CENTER" layoutX="259.0" layoutY="115.0" mnemonicParsing="false" text="Iniciar Juego" textAlignment="CENTER" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="213.0" layoutY="41.0" prefHeight="80.0" prefWidth="174.0" text="Batalla Naval" textAlignment="CENTER" />
-      <Button fx:id="exitPlayButton" alignment="CENTER" layoutX="281.0" layoutY="248.0" mnemonicParsing="false" text="Salir" textAlignment="CENTER" />
-      <Button fx:id="continuePlayButton" alignment="CENTER" layoutX="249.0" layoutY="160.0" mnemonicParsing="false" text="Continuar Juego" textAlignment="CENTER" />
-      <Button fx:id="instructionsButton" alignment="CENTER" contentDisplay="CENTER" layoutX="257.0" layoutY="200.0" mnemonicParsing="false" text="Instrucciones" textAlignment="CENTER" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="454.0" layoutY="310.0" prefHeight="25.0" prefWidth="125.0" text="Ingrese su nombre" />
-      <TextField fx:id="nameTextField" layoutX="455.0" layoutY="335.0" prefHeight="25.0" prefWidth="86.0" />
-      <Button fx:id="nameButton" layoutX="551.0" layoutY="335.0" mnemonicParsing="false" text="✔" />
-      <Label fx:id="statusNameLabel" layoutX="462.0" layoutY="369.0" prefHeight="17.0" prefWidth="114.0" />
+      <VBox alignment="BASELINE_CENTER" layoutY="1.0" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" prefWidth="174.0" text="COCODRILE BOMBARDINO" textAlignment="CENTER" />
+            <Button alignment="CENTER" mnemonicParsing="false" text="Iniciar Juego" textAlignment="CENTER" fx:id="startPlayButton"/>
+            <Button alignment="CENTER" mnemonicParsing="false" text="Continuar Juego" textAlignment="CENTER" fx:id="continuePlayButton"/>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Instrucciones" textAlignment="CENTER" fx:id="instructionsButton" />
+            <Button alignment="CENTER" mnemonicParsing="false" text="Salir" textAlignment="CENTER" fx:id="exitPlayButton"/>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
