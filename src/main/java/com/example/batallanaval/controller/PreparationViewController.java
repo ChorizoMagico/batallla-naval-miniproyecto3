@@ -79,11 +79,15 @@ public class PreparationViewController {
 
     @FXML
     void handleReturnBoat(KeyEvent event) {
-        if(event.getCode()== KeyCode.Z && event.isControlDown()){
-            if(playerBoard.isBoatSelected()){
+        if(playerBoard.isBoatSelected()) {
+            if (event.getCode() == KeyCode.Z && event.isControlDown()) {
                 playerBoard.returnBoat();
                 loadShowPane();
                 loadShowBoatPane();
+            }
+
+            if (event.getCode() == KeyCode.R) {
+                playerBoard.getSelectedBoat().rotateTheBoat();
             }
         }
     }
@@ -187,13 +191,25 @@ public class PreparationViewController {
     }
 
     private void loadGridPane() {
-        int[][] board = playerBoard.getBoard();
+
         for (int i = 0; i < 10; i++) {
-            for(int j = 0; j < 10; j++){
-                if(board[i][j] == 1 && boatsStack[i][j].getChildren().isEmpty()) {
-                    Boat boat = playerBoard.findBoatAt(i, j);
-                    boatsStack[i][j].getChildren().add(boat.getShape());
-                }
+            for (int j = 0; j < 10; j++) {
+                boatsStack[i][j].getChildren().clear();
+            }
+        }
+
+        for (Boat boat : playerBoard.getBoats()) {
+            int row = boat.getPosition()[0];
+            int col = boat.getPosition()[1];
+            int size = boat.getSize();
+            boolean horizontal = boat.getIsHorizontal();
+
+            for (int i = 0; i < size; i++) {
+                int r = horizontal ? row : row + i;
+                int c = horizontal ? col + i : col;
+
+                Node segment = boat.createSegment();
+                boatsStack[r][c].getChildren().add(segment);
             }
         }
     }

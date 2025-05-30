@@ -1,10 +1,11 @@
 package com.example.batallanaval.model;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
@@ -24,6 +25,39 @@ public class Boat {
         this.isHorizontal = isHorizontal;
         shape = new Group();
         shape.setPickOnBounds(true);
+    }
+
+    public Node createSegment() {
+        StackPane segment = new StackPane();
+
+        // Water background
+        Rectangle water = new Rectangle(41, 41);
+        water.setFill(Color.DODGERBLUE);
+        water.setStroke(Color.BLACK);
+        water.setStrokeType(StrokeType.INSIDE);
+
+        // Boat image
+        ImageView imgView = new ImageView();
+        switch(type) {
+            case "Portaviones":
+                imgView.setImage(new Image(getClass().getResourceAsStream("/com/example/batallanaval/aircarrier.png")));
+                break;
+            case "Submarino":
+                imgView.setImage(new Image(getClass().getResourceAsStream("/com/example/batallanaval/submarine.png")));
+                break;
+            case "Destructor":
+                imgView.setImage(new Image(getClass().getResourceAsStream("/com/example/batallanaval/destructor.png")));
+                break;
+            case "Fragata":
+                imgView.setImage(new Image(getClass().getResourceAsStream("/com/example/batallanaval/frigate.png")));
+                break;
+        }
+
+        imgView.setFitWidth(40);
+        imgView.setFitHeight(40);
+
+        segment.getChildren().addAll(water, imgView);
+        return segment;
     }
 
     public int getSize() {
@@ -118,13 +152,8 @@ public class Boat {
     }
 
     public void rotateTheBoat(){
-        if(isHorizontal == true){
-            isHorizontal = false;
-            shape.setRotate(0);
-        } else {
-            isHorizontal = true;
-            shape.setRotate(90);
-        }
+        isHorizontal = !isHorizontal;
+        shape.setRotate(isHorizontal ? 90 : 0);
     }
 
     public Group getShape(){

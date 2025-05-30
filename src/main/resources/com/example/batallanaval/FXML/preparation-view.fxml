@@ -61,8 +61,8 @@
             <Font name="Cambria Math" size="14.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="boatPane" layoutX="498.0" layoutY="523.0" prefHeight="80.0" prefWidth="291.0" />
-      <Label fx:id="errorLabel" alignment="CENTER" layoutX="96.0" layoutY="499.0" prefHeight="64.0" prefWidth="239.0" text="Seleccione un barco" textAlignment="CENTER">
+      <AnchorPane fx:id="boatPane" layoutX="496.0" layoutY="515.0" prefHeight="80.0" prefWidth="291.0" />
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="328.0" layoutY="14.0" prefHeight="40.0" prefWidth="239.0" text="Seleccione un barco" textAlignment="CENTER">
          <font>
             <Font name="Cambria Math" size="14.0" />
          </font>
