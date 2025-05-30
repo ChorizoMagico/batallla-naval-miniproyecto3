@@ -21,7 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
+import java.util.List;
 
 
 public class PreparationViewController {
@@ -79,11 +79,15 @@ public class PreparationViewController {
 
     @FXML
     void handleReturnBoat(KeyEvent event) {
-        if(event.getCode()== KeyCode.Z && event.isControlDown()){
-            if(playerBoard.isBoatSelected()){
+        if(playerBoard.isBoatSelected()) {
+            if (event.getCode() == KeyCode.Z && event.isControlDown()) {
                 playerBoard.returnBoat();
                 loadShowPane();
                 loadShowBoatPane();
+            }
+
+            if (event.getCode() == KeyCode.R) {
+                playerBoard.getSelectedBoat().rotateTheBoat();
             }
         }
     }
@@ -187,13 +191,34 @@ public class PreparationViewController {
     }
 
     private void loadGridPane() {
-        int[][] board = playerBoard.getBoard();
+
         for (int i = 0; i < 10; i++) {
-            for(int j = 0; j < 10; j++){
-                if(board[i][j] == 1 && boatsStack[i][j].getChildren().isEmpty()) {
-                    Boat boat = playerBoard.findBoatAt(i, j);
-                    boatsStack[i][j].getChildren().add(boat.getShape());
+            for (int j = 0; j < 10; j++) {
+                boatsStack[i][j].getChildren().clear();
+            }
+        }
+
+        List<Boat> boats = playerBoard.getBoats();
+        for (int b = 0; b < boats.size(); b++) {
+            Boat boat = boats.get(b);
+            int[] position = boat.getPosition();
+            int row = position[0];
+            int col = position[1];
+
+            for (int i = 0; i < boat.getSize(); i++) {
+                int r;
+                int c;
+
+                if (boat.getIsHorizontal()) {
+                    r = row;
+                    c = col + i;
+                } else {
+                    r = row + i;
+                    c = col;
                 }
+
+                Node segment = boat.createSegment(i);
+                boatsStack[r][c].getChildren().add(segment);
             }
         }
     }

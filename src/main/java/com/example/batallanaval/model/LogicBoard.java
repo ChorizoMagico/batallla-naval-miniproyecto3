@@ -44,6 +44,10 @@ public class LogicBoard {
         return availableBoats;
     }
 
+    public List<Boat> getPlacedBoats() {
+        return boats;
+    }
+
     public void selectBoat(int index) {
         selectedBoat = availableBoats.get(index);
         availableBoats.remove(index);
