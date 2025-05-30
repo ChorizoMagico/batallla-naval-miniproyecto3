@@ -1,5 +1,6 @@
 package com.example.batallanaval.model;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -27,36 +28,43 @@ public class Boat {
         shape.setPickOnBounds(true);
     }
 
-    public Node createSegment() {
+    public Node createSegment(int segmentIndex) {
         StackPane segment = new StackPane();
+        Image image = null;
 
-        // Water background
-        Rectangle water = new Rectangle(41, 41);
-        water.setFill(Color.DODGERBLUE);
-        water.setStroke(Color.BLACK);
-        water.setStrokeType(StrokeType.INSIDE);
-
-        // Boat image
-        ImageView imgView = new ImageView();
-        switch(type) {
+        switch (type) {
             case "Portaviones":
-                imgView.setImage(new Image(getClass().getResourceAsStream("/com/example/batallanaval/aircarrier.png")));
+                image = new Image(getClass().getResourceAsStream("/com/example/batallanaval/aircarrier.png"));
                 break;
             case "Submarino":
-                imgView.setImage(new Image(getClass().getResourceAsStream("/com/example/batallanaval/submarine.png")));
+                image = new Image(getClass().getResourceAsStream("/com/example/batallanaval/submarine.png"));
                 break;
             case "Destructor":
-                imgView.setImage(new Image(getClass().getResourceAsStream("/com/example/batallanaval/destructor.png")));
+                image = new Image(getClass().getResourceAsStream("/com/example/batallanaval/destructor.png"));
                 break;
             case "Fragata":
-                imgView.setImage(new Image(getClass().getResourceAsStream("/com/example/batallanaval/frigate.png")));
+                image = new Image(getClass().getResourceAsStream("/com/example/batallanaval/frigate.png"));
                 break;
+        }
+
+        ImageView imgView = new ImageView(image);
+
+        int width = 40;
+        int height = 40;
+
+        if (isHorizontal) {
+            imgView.setRotate(90);
+            imgView.setViewport(new Rectangle2D(0, segmentIndex * height, width, height));
+
+        } else {
+            imgView.setViewport(new Rectangle2D(0, segmentIndex * height, width, height));
         }
 
         imgView.setFitWidth(40);
         imgView.setFitHeight(40);
+        imgView.setPreserveRatio(false);
 
-        segment.getChildren().addAll(water, imgView);
+        segment.getChildren().add(imgView);
         return segment;
     }
 
@@ -153,7 +161,14 @@ public class Boat {
 
     public void rotateTheBoat(){
         isHorizontal = !isHorizontal;
-        shape.setRotate(isHorizontal ? 90 : 0);
+        int rotation;
+        if (isHorizontal) {
+            rotation = 90;
+        }
+        else {
+            rotation = 0;
+        }
+        shape.setRotate(rotation);
     }
 
     public Group getShape(){

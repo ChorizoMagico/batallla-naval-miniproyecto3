@@ -21,7 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
+import java.util.List;
 
 
 public class PreparationViewController {
@@ -198,17 +198,26 @@ public class PreparationViewController {
             }
         }
 
-        for (Boat boat : playerBoard.getBoats()) {
-            int row = boat.getPosition()[0];
-            int col = boat.getPosition()[1];
-            int size = boat.getSize();
-            boolean horizontal = boat.getIsHorizontal();
+        List<Boat> boats = playerBoard.getBoats();
+        for (int b = 0; b < boats.size(); b++) {
+            Boat boat = boats.get(b);
+            int[] position = boat.getPosition();
+            int row = position[0];
+            int col = position[1];
 
-            for (int i = 0; i < size; i++) {
-                int r = horizontal ? row : row + i;
-                int c = horizontal ? col + i : col;
+            for (int i = 0; i < boat.getSize(); i++) {
+                int r;
+                int c;
 
-                Node segment = boat.createSegment();
+                if (boat.getIsHorizontal()) {
+                    r = row;
+                    c = col + i;
+                } else {
+                    r = row + i;
+                    c = col;
+                }
+
+                Node segment = boat.createSegment(i);
                 boatsStack[r][c].getChildren().add(segment);
             }
         }
