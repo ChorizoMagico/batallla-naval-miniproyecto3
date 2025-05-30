@@ -53,7 +53,7 @@ public class Boat {
         int height = 40;
 
         if (isHorizontal) {
-            imgView.setRotate(90);
+            imgView.setRotate(270);
             imgView.setViewport(new Rectangle2D(0, segmentIndex * height, width, height));
 
         } else {
@@ -163,7 +163,7 @@ public class Boat {
         isHorizontal = !isHorizontal;
         int rotation;
         if (isHorizontal) {
-            rotation = 90;
+            rotation = 270;
         }
         else {
             rotation = 0;
