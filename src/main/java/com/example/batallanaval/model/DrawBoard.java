@@ -2,6 +2,8 @@ package com.example.batallanaval.model;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
@@ -22,6 +24,34 @@ public class DrawBoard {
                 boatsStack[i][j].setStyle("-fx-background-color: dodgerblue; -fx-border-color: black; -fx-border-width: 1;");
                 boatsStack[i][j].setAlignment(Pos.TOP_LEFT);
                 boardGrid.add(boatsStack[i][j], j, i);
+            }
+        }
+    }
+
+    public void loadShootsInGridPane(StackPane[][] boatsStack, LogicBoard playerBoard, boolean clear) {
+
+        if(clear) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    boatsStack[i][j].getChildren().clear();
+                }
+            }
+        }
+
+        int[][] board= playerBoard.getBoard();
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(board[i][j]==2){
+                    ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/com/example/batallanaval/miss.png"))));
+                    boatsStack[i][j].getChildren().add(imageView);
+                } else if (board[i][j]==3) {
+                    ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/com/example/batallanaval/hit.png"))));
+                    boatsStack[i][j].getChildren().add(imageView);
+                } else if (board[i][j]==4) {
+                    ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/com/example/batallanaval/sinl.png"))));
+                    boatsStack[i][j].getChildren().add(imageView);
+                }
             }
         }
     }
@@ -60,5 +90,7 @@ public class DrawBoard {
                 boatsStack[r][c].getChildren().add(segment);
             }
         }
+
+        loadShootsInGridPane(boatsStack, playerBoard, false);
     }
 }
