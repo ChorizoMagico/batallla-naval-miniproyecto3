@@ -24,6 +24,8 @@ public class GameController {
 
     private StackPane[][] cpuStack;
 
+    private int turn;
+
     @FXML
     private AnchorPane anchorPane;
 
@@ -38,6 +40,7 @@ public class GameController {
     }
 
     private void initializeGame() {
+        turn = 1;
         playerStack = new StackPane[10][10];
         cpuStack = new StackPane[10][10];
         drawBoard = new DrawBoard();
@@ -55,6 +58,10 @@ public class GameController {
     public void setPlayerBoard(LogicBoard logicBoard) {
         this.playerBoard = logicBoard;
         initializeGame();
+    }
+
+    private void nextTurn() {
+        turn++;
     }
 
 }
