@@ -1,12 +1,15 @@
 package com.example.batallanaval.controller;
 
+import com.example.batallanaval.model.DrawBoard;
 import com.example.batallanaval.model.LogicBoard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class GameController {
@@ -15,14 +18,35 @@ public class GameController {
 
     private LogicBoard playerBoard;
 
+    private DrawBoard drawBoard;
+
+    private StackPane[][] playerStack;
+
+    private StackPane[][] cpuStack;
+
+    private int turn;
+
     @FXML
     private AnchorPane anchorPane;
 
     @FXML
-    private GridPane boardGrid;
+    private GridPane cpuGrid;
+
+    @FXML
+    private GridPane playerGrid;
 
     public void setMainScene(Scene mainScene) {
         this.mainScene = mainScene;
+    }
+
+    private void initializeGame() {
+        turn = 1;
+        playerStack = new StackPane[10][10];
+        cpuStack = new StackPane[10][10];
+        drawBoard = new DrawBoard();
+        drawBoard.loadGridPaneWithWater(playerGrid, playerStack);
+        drawBoard.loadGridPaneWithWater(cpuGrid, cpuStack);
+        drawBoard.loadGridPane(playerStack, playerBoard);
     }
 
     @FXML
@@ -31,7 +55,13 @@ public class GameController {
         stage.setScene(mainScene);
     }
 
-    public void setBoardGrid(LogicBoard logicBoard) {
+    public void setPlayerBoard(LogicBoard logicBoard) {
         this.playerBoard = logicBoard;
+        initializeGame();
     }
+
+    private void nextTurn() {
+        turn++;
+    }
+
 }
