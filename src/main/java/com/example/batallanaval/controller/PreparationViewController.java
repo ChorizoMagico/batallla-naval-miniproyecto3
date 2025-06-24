@@ -1,6 +1,7 @@
 package com.example.batallanaval.controller;
 
 import com.example.batallanaval.model.Boat;
+import com.example.batallanaval.model.DrawBoard;
 import com.example.batallanaval.model.LogicBoard;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,6 +29,7 @@ public class PreparationViewController {
 
     private Scene mainScene;
     private StackPane[][] boatsStack;
+    private DrawBoard drawBoard;
     private StackPane[] boatsStackAvailable;
     private LogicBoard playerBoard;
 
@@ -55,28 +57,45 @@ public class PreparationViewController {
     @FXML
     private Button returnButton;
 
+    /**
+     * Sets the actual scene as the main scene
+     * @param mainScene the main scene
+     */
     public void setMainScene(Scene mainScene) {
         this.mainScene = mainScene;
     }
 
+    /**
+     * Runs all the events methods
+     */
     @FXML
     private void initialize(){
         returnButton.setOnAction(this::handleReturn);
         playButton.setOnAction(this::handlePlay);
         anchorPane.setOnKeyPressed(this::handleReturnBoat);
+        drawBoard = new DrawBoard();
+        boatsStack = new StackPane[10][10];
         playerBoard = new LogicBoard();
         createShowPane();
         loadShowBoatPane();
-        loadGridPaneWithWater();
+        drawBoard.loadGridPaneWithWater(boardGrid, boatsStack);
         handleLoadBoard();
     }
 
+    /**
+     * Handle the exit button functionality, reutirning the player to the previous scene
+     * @param actionEvent the event which starts when someone clicks the exit button
+     */
     @FXML
     private void handleReturn(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(mainScene);
     }
 
+    /**
+     * Handle the rotate the botate and unselect boat functionality
+     * @param event event which fires when someone tries to rotate the boat or unselect it
+     */
     @FXML
     void handleReturnBoat(KeyEvent event) {
         if(playerBoard.isBoatSelected()) {
@@ -92,6 +111,9 @@ public class PreparationViewController {
         }
     }
 
+    /**
+     * Creates the right grid with all the available boats
+     */
     private void createShowPane(){
         showPane.getChildren().clear();
         boatsStackAvailable = new StackPane[10];
@@ -105,6 +127,9 @@ public class PreparationViewController {
         handleBoatSelection();
     }
 
+    /**
+     * Reload the right grid with all the available boats
+     */
     private void loadShowPane(){
         int size = playerBoard.getAvailableBoats().size();
         for(int i = 0; i < 10; i++){
@@ -115,6 +140,9 @@ public class PreparationViewController {
         }
     }
 
+    /**
+     * Shows the selected boat in a small rectangle
+     */
     private void loadShowBoatPane(){
         boatPane.getChildren().clear();
         if(playerBoard.isBoatSelected()){
@@ -126,6 +154,10 @@ public class PreparationViewController {
         }
     }
 
+    /**
+     * Goes to the next stage, the game one
+     * @param actionEvent event which fires when someone clicks the play button
+     */
     @FXML
     private void handlePlay(ActionEvent actionEvent) {
         // Cierra el fxml actual y abre el fxml del juego
@@ -135,7 +167,7 @@ public class PreparationViewController {
 
             // Cerramos la scene
             GameController gameController = fxmlLoader.getController();
-            gameController.setBoardGrid(playerBoard);
+            gameController.setPlayerBoard(playerBoard);
             Stage currentStage = (Stage) playButton.getScene().getWindow();
             gameController.setMainScene(currentStage.getScene());
 
@@ -149,6 +181,9 @@ public class PreparationViewController {
         }
     }
 
+    /**
+     * Handle the event when someone selects one of the available boats in the right
+     */
     private void handleBoatSelection(){
         for (int i = 0; i < boatsStackAvailable.length; i++) {
             final int index = i;
@@ -166,6 +201,9 @@ public class PreparationViewController {
         }
     }
 
+    /**
+     * Handle the events when someone clicks the cells in which the boat will be placed
+     */
     private void handleLoadBoard() {
         for (int i = 0; i < 10; i++) {
             for(int j = 0; j < 10; j++){
@@ -178,7 +216,7 @@ public class PreparationViewController {
                         if (playerBoard.isBoatSelected() && playerBoard.placeBoat(index,index2, playerBoard.getSelectedBoat())){
                             playerBoard.emptySelectedBoat();
                             loadShowBoatPane();
-                            loadGridPane();
+                            drawBoard.loadGridPane(boatsStack, playerBoard);
                             errorLabel.setText("Barco colocado con éxito!");
                         }else{
                             if(playerBoard.isBoatSelected()){
@@ -191,50 +229,4 @@ public class PreparationViewController {
         }
     }
 
-    private void loadGridPane() {
-
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                boatsStack[i][j].getChildren().clear();
-            }
-        }
-
-        List<Boat> boats = playerBoard.getBoats();
-        for (int b = 0; b < boats.size(); b++) {
-            Boat boat = boats.get(b);
-            int[] position = boat.getPosition();
-            int row = position[0];
-            int col = position[1];
-
-            for (int i = 0; i < boat.getSize(); i++) {
-                int r;
-                int c;
-
-                if (boat.getIsHorizontal()) {
-                    r = row;
-                    c = col + i;
-                } else {
-                    r = row + i;
-                    c = col;
-                }
-
-                Node segment = boat.createSegment(i);
-                boatsStack[r][c].getChildren().add(segment);
-            }
-        }
-    }
-
-
-    private void loadGridPaneWithWater() {
-        boardGrid.getChildren().clear();
-        boatsStack = new StackPane[10][10];
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                boatsStack[i][j] = new StackPane();
-                boatsStack[i][j].setStyle("-fx-background-color: dodgerblue; -fx-border-color: black; -fx-border-width: 1;");
-                boatsStack[i][j].setAlignment(Pos.TOP_LEFT);
-                boardGrid.add(boatsStack[i][j], j, i);
-            }
-        }
-    }
 }
