@@ -80,13 +80,13 @@ public class PreparationViewController {
     @FXML
     void handleReturnBoat(KeyEvent event) {
         if(playerBoard.isBoatSelected()) {
-            if (event.getCode() == KeyCode.Z && event.isControlDown()) {
+            if (event.getCode() == KeyCode.Z && event.isControlDown() & !playerBoard.getSelectedBoat().getIsHorizontal()) {
                 playerBoard.returnBoat();
                 loadShowPane();
                 loadShowBoatPane();
             }
 
-            if (event.getCode() == KeyCode.R) {
+            if (event.getCode() == KeyCode.R ) {
                 playerBoard.getSelectedBoat().rotateTheBoat();
             }
         }
@@ -135,6 +135,7 @@ public class PreparationViewController {
 
             // Cerramos la scene
             GameController gameController = fxmlLoader.getController();
+            gameController.setBoardGrid(playerBoard);
             Stage currentStage = (Stage) playButton.getScene().getWindow();
             gameController.setMainScene(currentStage.getScene());
 
@@ -154,7 +155,7 @@ public class PreparationViewController {
             boatsStackAvailable[i].setOnMouseClicked(new EventHandler<MouseEvent>(){
                 @Override
                 public void handle(MouseEvent event) {
-                    if(!boatsStackAvailable[index].getChildren().isEmpty()){
+                    if(!boatsStackAvailable[index].getChildren().isEmpty() & !playerBoard.isBoatSelected()){
                         playerBoard.selectBoat(index);
                         loadShowPane();
                         loadShowBoatPane();

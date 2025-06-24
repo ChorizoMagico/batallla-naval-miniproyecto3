@@ -1,5 +1,6 @@
 package com.example.batallanaval.controller;
 
+import com.example.batallanaval.model.LogicBoard;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,6 +22,7 @@ public class StartViewController {
     @FXML
     private Button startPlayButton;
 
+
     @FXML
     private Button continuePlayButton;
 
@@ -29,6 +32,7 @@ public class StartViewController {
     @FXML
     private Button exitPlayButton;
 
+
     @FXML
     private void initialize() {
         startPlayButton.setOnAction(this::handlePlay);
@@ -36,6 +40,7 @@ public class StartViewController {
         instructionsButton.setOnAction(this::handleInstructions);
         exitPlayButton.setOnAction(this::handleExit);
     }
+
 
     private void handlePlay(ActionEvent actionEvent) {
         // Cierra el fxml actual y abre el fxml del juego
