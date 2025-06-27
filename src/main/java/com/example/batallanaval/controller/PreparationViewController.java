@@ -1,8 +1,9 @@
 package com.example.batallanaval.controller;
 
-import com.example.batallanaval.model.Boat;
-import com.example.batallanaval.model.DrawBoard;
 import com.example.batallanaval.model.LogicBoard;
+import com.example.batallanaval.model.PlainTextFileHandler;
+import com.example.batallanaval.model.Player;
+import com.example.batallanaval.model.SerializableFileHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -22,16 +24,17 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
 
 
 public class PreparationViewController {
 
     private Scene mainScene;
     private StackPane[][] boatsStack;
-    private DrawBoard drawBoard;
+    private LogicBoard.DrawBoard drawBoard;
     private StackPane[] boatsStackAvailable;
     private LogicBoard playerBoard;
+    private PlainTextFileHandler plainTextFileHandler;
+    private SerializableFileHandler serializableFileHandler;
 
     @FXML
     private GridPane showPane;
@@ -55,6 +58,9 @@ public class PreparationViewController {
     private Button playButton;
 
     @FXML
+    private TextField nameField;
+
+    @FXML
     private Button returnButton;
 
     /**
@@ -73,13 +79,15 @@ public class PreparationViewController {
         returnButton.setOnAction(this::handleReturn);
         playButton.setOnAction(this::handlePlay);
         anchorPane.setOnKeyPressed(this::handleReturnBoat);
-        drawBoard = new DrawBoard();
-        boatsStack = new StackPane[10][10];
         playerBoard = new LogicBoard();
+        drawBoard = playerBoard.new DrawBoard();
+        boatsStack = new StackPane[10][10];
         createShowPane();
         loadShowBoatPane();
         drawBoard.loadGridPaneWithWater(boardGrid, boatsStack);
         handleLoadBoard();
+        plainTextFileHandler = new PlainTextFileHandler();
+        serializableFileHandler = new SerializableFileHandler();
     }
 
     /**
@@ -165,9 +173,15 @@ public class PreparationViewController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
             Parent root = fxmlLoader.load();
 
+            Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
+            String content = userPlayer.getNickname()+","+userPlayer.getSinkedBoats();
+
+            serializableFileHandler.serialize("board_data.ser", playerBoard);
+            plainTextFileHandler.writeToFile("player_data.csv", content);
+
             // Cerramos la scene
             GameController gameController = fxmlLoader.getController();
-            gameController.setPlayerBoard(playerBoard);
+            gameController.setPlayerBoard(userPlayer);
             Stage currentStage = (Stage) playButton.getScene().getWindow();
             gameController.setMainScene(currentStage.getScene());
 

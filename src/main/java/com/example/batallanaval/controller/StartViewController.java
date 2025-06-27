@@ -1,12 +1,16 @@
 package com.example.batallanaval.controller;
 
 import com.example.batallanaval.model.LogicBoard;
+import com.example.batallanaval.model.PlainTextFileHandler;
+import com.example.batallanaval.model.Player;
+import com.example.batallanaval.model.SerializableFileHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -32,9 +36,14 @@ public class StartViewController {
     @FXML
     private Button exitPlayButton;
 
+    private PlainTextFileHandler plainTextFileHandler;
+    private SerializableFileHandler serializableFileHandler;
+
 
     @FXML
     private void initialize() {
+        plainTextFileHandler = new PlainTextFileHandler();
+        serializableFileHandler = new SerializableFileHandler();
         startPlayButton.setOnAction(this::handlePlay);
         continuePlayButton.setOnAction(this::handleContinue);
         instructionsButton.setOnAction(this::handleInstructions);
@@ -64,7 +73,38 @@ public class StartViewController {
     }
 
     private void handleContinue(ActionEvent actionEvent) {
+        String[] data = plainTextFileHandler.readFromFile("player_data.csv");
+        if(data.length == 0){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("No hay datos guardados");
+            alert.showAndWait();
+        }else{
+            try{
+                String nickname = data[0];
 
+                LogicBoard userBoard = (LogicBoard) serializableFileHandler.deserialize("board_data.ser");
+
+                int sinkedBoats = Integer.parseInt(data[1]);
+                Player userPlayer = new Player(nickname, userBoard, sinkedBoats);
+
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
+                Parent root = fxmlLoader.load();
+
+                GameController gameController = fxmlLoader.getController();
+                gameController.setPlayerBoard(userPlayer);
+                Stage currentStage = (Stage) continuePlayButton.getScene().getWindow();
+                gameController.setMainScene(currentStage.getScene());
+
+                Scene gameScene = new Scene(root);
+                currentStage.setScene(gameScene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println("Se termino la excepcion.");
+            }
+        }
     }
 
     private void handleInstructions (ActionEvent actionEvent) {
