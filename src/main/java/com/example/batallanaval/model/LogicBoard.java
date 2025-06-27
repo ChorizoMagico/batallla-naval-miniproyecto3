@@ -8,10 +8,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogicBoard {
+public class LogicBoard implements Serializable {
     private static final int BOARD_SIZE = 10;
     private int[][] board;
     private List<Boat> boats;

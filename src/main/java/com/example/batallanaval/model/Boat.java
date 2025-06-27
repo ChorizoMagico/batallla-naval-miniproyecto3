@@ -10,13 +10,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
-public class Boat {
+import java.io.Serializable;
+
+public class Boat implements Serializable {
     private final int size;
     private int resistance;
     private boolean isHorizontal;
     private String type;
     private int[] position;
-    private Group shape;
+    private transient Group shape;
 
 
     public Boat(int size, int resistance, boolean isHorizontal) {

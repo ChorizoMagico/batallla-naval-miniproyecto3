@@ -1,6 +1,9 @@
 package com.example.batallanaval.controller;
 
 import com.example.batallanaval.model.LogicBoard;
+import com.example.batallanaval.model.PlainTextFileHandler;
+import com.example.batallanaval.model.Player;
+import com.example.batallanaval.model.SerializableFileHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,6 +33,8 @@ public class PreparationViewController {
     private LogicBoard.DrawBoard drawBoard;
     private StackPane[] boatsStackAvailable;
     private LogicBoard playerBoard;
+    private PlainTextFileHandler plainTextFileHandler;
+    private SerializableFileHandler serializableFileHandler;
 
     @FXML
     private GridPane showPane;
@@ -81,6 +86,8 @@ public class PreparationViewController {
         loadShowBoatPane();
         drawBoard.loadGridPaneWithWater(boardGrid, boatsStack);
         handleLoadBoard();
+        plainTextFileHandler = new PlainTextFileHandler();
+        serializableFileHandler = new SerializableFileHandler();
     }
 
     /**
@@ -166,10 +173,15 @@ public class PreparationViewController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
             Parent root = fxmlLoader.load();
 
-            String nickname = nameField.getText();
+            Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
+            String content = userPlayer.getNickname()+","+userPlayer.getSinkedBoats();
+
+            serializableFileHandler.serialize("board_data.ser", playerBoard);
+            plainTextFileHandler.writeToFile("player_data.csv", content);
+
             // Cerramos la scene
             GameController gameController = fxmlLoader.getController();
-            gameController.setPlayerBoard(playerBoard, nickname);
+            gameController.setPlayerBoard(userPlayer);
             Stage currentStage = (Stage) playButton.getScene().getWindow();
             gameController.setMainScene(currentStage.getScene());
 
