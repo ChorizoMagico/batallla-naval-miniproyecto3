@@ -9,8 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class LogicBoard implements Serializable {
     private static final int BOARD_SIZE = 10;
@@ -238,6 +237,54 @@ public class LogicBoard implements Serializable {
             }
             System.out.println();
         }
+    }
+
+    public void aleatorizeBoard(){
+        ArrayList<Integer> positions = new ArrayList<>();
+        for(int p = 1; p <= 100; p++){
+            positions.add(p);
+        }
+
+
+        int row, col, actualPosition;
+        do{
+            Collections.shuffle(positions);
+            actualPosition = positions.get(0);
+            selectBoat(0);
+
+            row = (actualPosition - 1) / 10 + 1;
+            col = (actualPosition - 1) % 10 + 1;
+
+            int random = (int)(Math.random() * 2) + 1;
+            if(random == 1){
+                selectedBoat.rotateTheBoat();
+            }
+
+            boolean placedBoat = placeBoat(row-1, col-1, selectedBoat);
+
+            if(!placedBoat){
+                selectedBoat.rotateTheBoat();
+                placedBoat = placeBoat(row-1, col-1, selectedBoat);
+            }
+
+            if(placedBoat){
+                int counter = 0;
+                if(selectedBoat.getIsHorizontal()){
+                    for(int i = 0; i < selectedBoat.getSize(); i++){
+                        positions.remove(Integer.valueOf(actualPosition+counter));
+                        counter++;
+                    }
+                }else{
+                    for(int i = 0; i < selectedBoat.getSize(); i++){
+                        positions.remove(Integer.valueOf(actualPosition+counter));
+                        counter = counter + 10;
+                    }
+                }
+            }else{
+                positions.remove(Integer.valueOf(actualPosition));
+                returnBoat();
+            }
+        }while(!availableBoats.isEmpty() && !positions.isEmpty());
     }
 
     public class DrawBoard {

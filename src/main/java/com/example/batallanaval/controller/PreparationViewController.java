@@ -1,9 +1,6 @@
 package com.example.batallanaval.controller;
 
-import com.example.batallanaval.model.LogicBoard;
-import com.example.batallanaval.model.PlainTextFileHandler;
-import com.example.batallanaval.model.Player;
-import com.example.batallanaval.model.SerializableFileHandler;
+import com.example.batallanaval.model.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class PreparationViewController {
@@ -176,12 +174,21 @@ public class PreparationViewController {
             Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
             String content = userPlayer.getNickname()+","+userPlayer.getSinkedBoats();
 
-            serializableFileHandler.serialize("board_data.ser", playerBoard);
+            LogicBoard cpuBoard = new LogicBoard();
+            cpuBoard.aleatorizeBoard();
+
+            ArrayList<LogicBoard> gameBoards = new ArrayList<>();
+            gameBoards.add(playerBoard);
+            gameBoards.add(cpuBoard);
+
+            GameState gameState = new GameState(gameBoards);
+
+            serializableFileHandler.serialize("board_data.ser", gameState);
             plainTextFileHandler.writeToFile("player_data.csv", content);
 
             // Cerramos la scene
             GameController gameController = fxmlLoader.getController();
-            gameController.setPlayerBoard(userPlayer);
+            gameController.setPlayerBoard(userPlayer, cpuBoard);
             Stage currentStage = (Stage) playButton.getScene().getWindow();
             gameController.setMainScene(currentStage.getScene());
 

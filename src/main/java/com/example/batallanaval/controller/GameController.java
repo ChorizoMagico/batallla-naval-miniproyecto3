@@ -1,9 +1,6 @@
 package com.example.batallanaval.controller;
 
-import com.example.batallanaval.model.LogicBoard;
-import com.example.batallanaval.model.PlainTextFileHandler;
-import com.example.batallanaval.model.Player;
-import com.example.batallanaval.model.SerializableFileHandler;
+import com.example.batallanaval.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -14,6 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class GameController {
 
@@ -90,18 +89,23 @@ public class GameController {
     private void handleReturn(ActionEvent actionEvent) {
 
         String content = userPlayer.getNickname()+","+userPlayer.getSinkedBoats();
+        ArrayList<LogicBoard> gameBoards = new ArrayList<>();
+        gameBoards.add(playerBoard);
+        gameBoards.add(cpuBoard);
+        GameState gameState = new GameState(gameBoards);
+
         plainTextFileHandler.writeToFile("player_data.csv", content);
-        serializableFileHandler.serialize("board_data.ser", playerBoard);
+        serializableFileHandler.serialize("board_data.ser", gameState);
 
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(mainScene);
     }
 
-    public void setPlayerBoard(Player userPlayer) {
+    public void setPlayerBoard(Player userPlayer, LogicBoard cpuBoard) {
         this.userPlayer = userPlayer;
         this.playerBoard = userPlayer.getPlayerBoard();
+        this.cpuBoard = cpuBoard;
         nameLabel.setText(userPlayer.getNickname());
-        cpuBoard = userPlayer.getPlayerBoard();
         initializeGame();
     }
 
