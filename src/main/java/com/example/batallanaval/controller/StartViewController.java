@@ -1,9 +1,6 @@
 package com.example.batallanaval.controller;
 
-import com.example.batallanaval.model.LogicBoard;
-import com.example.batallanaval.model.PlainTextFileHandler;
-import com.example.batallanaval.model.Player;
-import com.example.batallanaval.model.SerializableFileHandler;
+import com.example.batallanaval.model.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class StartViewController {
 
@@ -84,16 +82,18 @@ public class StartViewController {
             try{
                 String nickname = data[0];
 
-                LogicBoard userBoard = (LogicBoard) serializableFileHandler.deserialize("board_data.ser");
+                GameState state = (GameState) serializableFileHandler.deserialize("board_data.ser");
+                ArrayList<LogicBoard> gameBoards = state.getBoards();
 
-                int sinkedBoats = Integer.parseInt(data[1]);
-                Player userPlayer = new Player(nickname, userBoard, sinkedBoats);
+
+                int sankBoats = Integer.parseInt(data[1]);
+                Player userPlayer = new Player(nickname, gameBoards.get(0), sankBoats);
 
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
                 Parent root = fxmlLoader.load();
 
                 GameController gameController = fxmlLoader.getController();
-                gameController.setPlayerBoard(userPlayer);
+                gameController.setPlayerBoard(userPlayer, gameBoards.get(1));
                 Stage currentStage = (Stage) continuePlayButton.getScene().getWindow();
                 gameController.setMainScene(currentStage.getScene());
 
