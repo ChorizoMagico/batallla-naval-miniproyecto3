@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class GameController {
@@ -73,7 +74,11 @@ public class GameController {
 
     private void initializeGame() {
         gameOver = playerBoard.isGameOver() || cpuBoard.isGameOver();
-        playerTurn = true;
+
+        if(playerTurn){
+            turnButton.setDisable(true);
+        }
+
         boardShowing = false;
         playerStack = new StackPane[10][10];
         cpuStack = new StackPane[10][10];
@@ -89,7 +94,7 @@ public class GameController {
     }
 
     private void saveState(){
-        String content = userPlayer.getNickname()+","+userPlayer.getSankBoats();
+        String content = userPlayer.getNickname()+","+userPlayer.getSankBoats()+","+playerTurn+","+messageLabel.getText();
         ArrayList<LogicBoard> gameBoards = new ArrayList<>();
         gameBoards.add(playerBoard);
         gameBoards.add(cpuBoard);
@@ -208,15 +213,19 @@ public class GameController {
     }
 
     public void updateSankBoatsLabel() {
-        userPlayer.updateSinkedBoats();
+        userPlayer.updateSankBoats();
         sankBoats.setText("Barcos hundidos : "+ userPlayer.getSankBoats());
     }
 
-    public void setPlayerBoard(Player userPlayer, LogicBoard cpuBoard) {
+    public void setPlayerBoard(Player userPlayer, LogicBoard cpuBoard, boolean playerTurn, String customMessageLabel) {
         this.userPlayer = userPlayer;
         this.playerBoard = userPlayer.getPlayerBoard();
         this.cpuBoard = cpuBoard;
+        this.playerTurn = playerTurn;
         nameLabel.setText(userPlayer.getNickname());
+        sankBoats.setText("Barcos hundidos: "+userPlayer.getSankBoats());
+        messageLabel.setText(customMessageLabel);
+        messageLabel.setStyle(String.format("-fx-text-fill: blue;"));
         initializeGame();
     }
 
