@@ -1,17 +1,15 @@
 package com.example.batallanaval.model;
 
-import java.io.Serializable;
-
 public class Player{
 
     private String nickname;
-    private int sinkedBoats;
+    private int sankBoats;
     private LogicBoard playerBoard;
 
-    public Player(String nickname, LogicBoard playerBoard, int sinkedBoats) {
+    public Player(String nickname, LogicBoard playerBoard, int sankBoats) {
         this.nickname = nickname;
         this.playerBoard = playerBoard;
-        this.sinkedBoats = sinkedBoats;
+        this.sankBoats = sankBoats;
     }
 
     public String getNickname() {
@@ -22,8 +20,8 @@ public class Player{
         return playerBoard;
     }
 
-    public int getSinkedBoats() {
-        return sinkedBoats;
+    public int getSankBoats() {
+        return sankBoats;
     }
 
     public void setPlayerBoard(LogicBoard playerBoard) {
@@ -31,6 +29,6 @@ public class Player{
     }
 
     public void updateSinkedBoats() {
-        sinkedBoats++;
+        sankBoats++;
     }
 }
