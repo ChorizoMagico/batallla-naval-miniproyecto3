@@ -28,7 +28,7 @@ public class Player{
         this.playerBoard = playerBoard;
     }
 
-    public void updateSinkedBoats() {
+    public void updateSankBoats() {
         sankBoats++;
     }
 }

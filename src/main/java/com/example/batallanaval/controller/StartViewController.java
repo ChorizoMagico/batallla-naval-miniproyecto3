@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -71,36 +72,52 @@ public class StartViewController {
     }
 
     private void handleContinue(ActionEvent actionEvent) {
-        String[] data = plainTextFileHandler.readFromFile("player_data.csv");
-        if(data.length == 0){
+
+        File file = new File("player_data.csv");
+
+        if (!file.exists()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("No hay datos guardados");
+            alert.setContentText("No hay archivo de datos guardado.");
             alert.showAndWait();
         }else{
             try{
+                String[] data = plainTextFileHandler.readFromFile("player_data.csv");
                 String nickname = data[0];
+
+                File boardFile = new File("board_data.ser");
+                if (!boardFile.exists() || boardFile.length() == 0) {
+                    throw new IOException("Archivo de tablero no existe o está vacío.");
+                }
 
                 GameState state = (GameState) serializableFileHandler.deserialize("board_data.ser");
                 ArrayList<LogicBoard> gameBoards = state.getBoards();
 
 
                 int sankBoats = Integer.parseInt(data[1]);
+                boolean playerTurn = Boolean.parseBoolean(data[2]);
+                String messageLabel = data[3];
+
                 Player userPlayer = new Player(nickname, gameBoards.get(0), sankBoats);
 
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
                 Parent root = fxmlLoader.load();
 
                 GameController gameController = fxmlLoader.getController();
-                gameController.setPlayerBoard(userPlayer, gameBoards.get(1));
+                gameController.setPlayerBoard(userPlayer, gameBoards.get(1), playerTurn, messageLabel);
                 Stage currentStage = (Stage) continuePlayButton.getScene().getWindow();
                 gameController.setMainScene(currentStage.getScene());
 
                 Scene gameScene = new Scene(root);
                 currentStage.setScene(gameScene);
-            } catch (IOException e) {
+            } catch (IOException | ClassCastException e) {
                 e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("No se pudo cargar la partida guardada: " + e.getMessage());
+                alert.showAndWait();
             } finally {
                 System.out.println("Se termino la excepcion.");
             }

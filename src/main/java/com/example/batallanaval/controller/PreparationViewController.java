@@ -172,7 +172,7 @@ public class PreparationViewController {
             Parent root = fxmlLoader.load();
 
             Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
-            String content = userPlayer.getNickname()+","+userPlayer.getSankBoats();
+            String content = userPlayer.getNickname()+","+userPlayer.getSankBoats()+","+true+","+"Mensaje: Dispara!";
 
             LogicBoard cpuBoard = new LogicBoard();
             cpuBoard.aleatorizeBoard();
@@ -188,7 +188,7 @@ public class PreparationViewController {
 
             // Cerramos la scene
             GameController gameController = fxmlLoader.getController();
-            gameController.setPlayerBoard(userPlayer, cpuBoard);
+            gameController.setPlayerBoard(userPlayer, cpuBoard, true, "Mensaje: Dispara!");
             Stage currentStage = (Stage) playButton.getScene().getWindow();
             gameController.setMainScene(currentStage.getScene());
 
