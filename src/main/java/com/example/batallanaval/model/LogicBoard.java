@@ -332,6 +332,29 @@ public class LogicBoard implements Serializable {
                         boatsStack[i][j].getChildren().clear();
                     }
                 }
+
+                for (Boat boat : playerBoard.getBoats()) {
+                    if (boat.getResistance() == 0) {
+                        int[] position = boat.getPosition();
+                        int row = position[0];
+                        int col = position[1];
+
+                        for (int i = 0; i < boat.getSize(); i++) {
+                            int r, c;
+                            if (boat.getIsHorizontal()) {
+                                r = row;
+                                c = col + i;
+                            } else {
+                                r = row + i;
+                                c = col;
+                            }
+
+                            Node segment = boat.createSegment(i);
+                            boatsStack[r][c].getChildren().add(segment);
+                        }
+                    }
+                }
+
             }
 
             int[][] board= playerBoard.getBoard();
@@ -350,6 +373,7 @@ public class LogicBoard implements Serializable {
                     }
                 }
             }
+
         }
 
         /**
