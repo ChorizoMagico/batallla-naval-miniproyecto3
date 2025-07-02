@@ -16,6 +16,7 @@ public class LogicBoard implements Serializable {
     private int[][] board;
     private List<Boat> boats;
     private ArrayList<Boat> availableBoats;
+    private ArrayList<Integer> shotPositions;
     private Boat selectedBoat;
 
     private static final int WATER = 0;
@@ -130,7 +131,7 @@ public class LogicBoard implements Serializable {
 
         //si ya le dispararon xd
         if (currentState == MISS || currentState == HIT || currentState == SUNK) {
-            return 0; // Ya se disparó aquí
+            return 3; // Ya se disparó aquí
         }
 
         // Si es agua
@@ -141,20 +142,17 @@ public class LogicBoard implements Serializable {
 
         // Si es un barco
         if (currentState == BOAT) {
-            board[row][col] = HIT;
-
-            // Buscar el barco afectado
             Boat affectedBoat = findBoatAt(row, col);
             if (affectedBoat != null) {
                 affectedBoat.reduceResistance();
-
                 if (affectedBoat.getResistance() <= 0) {
-                    // Marcar todas las partes del barco como hundidas
                     markBoatAsSunk(affectedBoat);
-                    return 2;
+                    return 2; // Hundido
+                } else {
+                    board[row][col] = HIT;
+                    return 1; // Impacto
                 }
             }
-            return 1; // Impacto
         }
 
         return 0; // Por defecto, considerar como agua
@@ -172,29 +170,32 @@ public class LogicBoard implements Serializable {
 
 
     private boolean isPartOfBoat(Boat boat, int row, int col) {
-        boolean isHorizontal = boat.getIsHorizontal();
         int[] positions = boat.getPosition();
-        if(isHorizontal){
-            if(row == positions[0] && (col >= positions[1] && col <= (positions[1]+(boat.getSize()-1)))){
-                return true;
-            }
-        }else{
-            if(col == positions[1] && (row >= positions[0] && row <= (positions[0]+(boat.getSize())-1) )){
-                return true;
-            }
+        int boatRow = positions[0];
+        int boatCol = positions[1];
+        int size = boat.getSize();
+        boolean isHorizontal = boat.getIsHorizontal();
+
+        if (isHorizontal) {
+            return row == boatRow && col >= boatCol && col < boatCol + size;
+        } else {
+            return col == boatCol && row >= boatRow && row < boatRow + size;
         }
-        return board[row][col] == BOAT || board[row][col] == HIT || board[row][col] == SUNK;
     }
 
 
     private void markBoatAsSunk(Boat boat) {
         // Buscar todas las celdas que pertenecen a este barco
-        for (int r = 0; r < BOARD_SIZE; r++) {
-            for (int c = 0; c < BOARD_SIZE; c++) {
-                if (board[r][c] == HIT && isPartOfBoat(boat, r, c)) {
-                    board[r][c] = SUNK;
-                }
-            }
+        int[] position = boat.getPosition();
+        int row = position[0];
+        int col = position[1];
+        int size = boat.getSize();
+        boolean isHorizontal = boat.getIsHorizontal();
+
+        for (int i = 0; i < size; i++) {
+            int r = isHorizontal ? row : row + i;
+            int c = isHorizontal ? col + i : col;
+            board[r][c] = SUNK;
         }
     }
 
@@ -287,6 +288,25 @@ public class LogicBoard implements Serializable {
         }while(!availableBoats.isEmpty() && !positions.isEmpty());
     }
 
+    public int randomShooting(){
+        shotPositions = new ArrayList<>();
+        for(int p = 1; p <= 100; p++){
+            shotPositions.add(p);
+        }
+
+        Collections.shuffle(shotPositions);
+        int actualPosition = shotPositions.get(0);
+        int row = (actualPosition - 1) / 10 + 1;
+        int col = (actualPosition - 1) % 10 + 1;
+
+        int result = shoot(row, col);
+        if(result == 1 || result == 2){
+            shotPositions.remove(Integer.valueOf(actualPosition));
+        }
+
+        return result;
+    }
+
     public class DrawBoard {
 
         /**
@@ -325,7 +345,7 @@ public class LogicBoard implements Serializable {
                         ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/com/example/batallanaval/hit.png"))));
                         boatsStack[i][j].getChildren().add(imageView);
                     } else if (board[i][j]==4) {
-                        ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/com/example/batallanaval/sinl.png"))));
+                        ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/com/example/batallanaval/sink.png"))));
                         boatsStack[i][j].getChildren().add(imageView);
                     }
                 }

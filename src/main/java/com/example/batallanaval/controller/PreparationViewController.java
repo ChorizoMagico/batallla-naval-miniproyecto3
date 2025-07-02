@@ -172,7 +172,7 @@ public class PreparationViewController {
             Parent root = fxmlLoader.load();
 
             Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
-            String content = userPlayer.getNickname()+","+userPlayer.getSinkedBoats();
+            String content = userPlayer.getNickname()+","+userPlayer.getSankBoats();
 
             LogicBoard cpuBoard = new LogicBoard();
             cpuBoard.aleatorizeBoard();
