@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -86,6 +88,7 @@ public class GameController {
         drawBoard.loadGridPaneWithWater(playerGrid, playerStack);
         drawBoard.loadGridPaneWithWater(cpuGrid, cpuStack);
         drawBoard.loadGridPane(playerStack, playerBoard);
+        drawBoard.loadShootsInGridPane(cpuStack, cpuBoard, true);
         playerBoard.printBoard();
         plainTextFileHandler = new PlainTextFileHandler();
         serializableFileHandler = new SerializableFileHandler();
@@ -161,7 +164,7 @@ public class GameController {
                             }
                             cpuBoard.printBoard();
                             gameOver = cpuBoard.isGameOver();
-                            drawBoard.loadShootsInGridPane(cpuStack, cpuBoard, false);
+                            drawBoard.loadShootsInGridPane(cpuStack, cpuBoard, true);
                             saveState();
                             if(gameOver) {
                                 turnButton.setDisable(true);
@@ -181,6 +184,17 @@ public class GameController {
 
     @FXML
     private void handleTurn(ActionEvent event) {
+        nextTurn();
+    }
+
+    @FXML
+    private void keyPressedTurnHandler(KeyEvent event) {
+        if(event.getCode() == KeyCode.N && !gameOver && !playerTurn) {
+            nextTurn();
+        }
+    }
+
+    public void nextTurn(){
         int result = playerBoard.randomShooting();
 
         if(result == 1) {
