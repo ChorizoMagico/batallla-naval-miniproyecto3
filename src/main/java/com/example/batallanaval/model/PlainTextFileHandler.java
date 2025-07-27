@@ -23,7 +23,9 @@ public class PlainTextFileHandler implements IPlainTextFileHandler {
                 content.append(line.trim()).append(",");
             }
         } catch (IOException e) {
+            System.err.println("Error al deserializar el archivo: " + fileName);
             e.printStackTrace();
+            return new String[0];
         }
         return content.toString().split(",");
     };
