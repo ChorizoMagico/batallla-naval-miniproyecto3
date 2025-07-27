@@ -1,34 +1,23 @@
 package com.example.batallanaval.model;
 
-public class Player{
+/**
+ * Class who inherits PlayerAdapter with a constructor
+ * @author Juan Esteban Arias
+ * @author Junior Lasprilla Prada
+ * @author Steven Fernando Aragón
+ * @version 1.0
+ */
 
-    private String nickname;
-    private int sankBoats;
-    private LogicBoard playerBoard;
-
+public class Player extends PlayerAdapter{
+    /**
+     * Creates a player with his data
+     * @param nickname Nickname of the player
+     * @param playerBoard Logic Board of this player
+     * @param sankBoats Number of sank boats
+     */
     public Player(String nickname, LogicBoard playerBoard, int sankBoats) {
         this.nickname = nickname;
         this.playerBoard = playerBoard;
         this.sankBoats = sankBoats;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public LogicBoard getPlayerBoard() {
-        return playerBoard;
-    }
-
-    public int getSankBoats() {
-        return sankBoats;
-    }
-
-    public void setPlayerBoard(LogicBoard playerBoard) {
-        this.playerBoard = playerBoard;
-    }
-
-    public void updateSankBoats() {
-        sankBoats++;
     }
 }
