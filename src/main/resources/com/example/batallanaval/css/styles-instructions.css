@@ -1,0 +1,58 @@
+/* Centrar el contenido del hbox*/
+.hbox {
+    -fx-alignment: center;
+    -fx-padding: 50px;
+    -fx-spacing: 25px;
+}
+
+/* TextFlow contenido*/
+
+#instructionsFlow {
+    -fx-background-color: "8ebdb6";
+    -fx-padding: 30px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+/* Titulos */
+
+.titulo {
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+    -fx-font-size: 26pt;
+    -fx-text-fill: #3e838c;
+}
+
+/* Sub titulos */
+
+.sub-titulo {
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+    -fx-font-size: 20pt;
+    -fx-text-fill: #3e838c;
+}
+
+/* Parrafos */
+
+.parrafos {
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+    -fx-font-size: 20pt;
+    -fx-font-weight: normal;
+}
+
+/* Boton de regreso */
+#returnButton {
+    -fx-background-color: #063940 ;
+    -fx-border-color: #195e63;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10 10 10 10;
+    -fx-border-radius: 10 10 10 10;
+    -fx-text-fill: #fff;
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+    -fx-cursor: hand;
+    -fx-pref-width: 120px;
+    -fx-pref-height: 30px;
+}

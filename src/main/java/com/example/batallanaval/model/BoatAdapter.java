@@ -1,8 +1,6 @@
-package com.example.batallanaval.controller;
+package com.example.batallanaval.model;
 
 
-import com.example.batallanaval.model.Boat;
-import com.example.batallanaval.model.IBoat;
 import javafx.scene.Group;
 import javafx.scene.Node;
 

@@ -59,11 +59,16 @@ public class StartViewController {
             // Cerramos la scene
             PreparationViewController preparationViewController = fxmlLoader.getController();
             Stage currentStage = (Stage) startPlayButton.getScene().getWindow();
-            preparationViewController.setMainScene(currentStage.getScene());
 
-            // Mostramos la neuva scene
+            boolean wasFullScreen = currentStage.isFullScreen();
+
+            // Mostramos la nueva scene
             Scene gameScene = new Scene(root);
             currentStage.setScene(gameScene);
+
+            currentStage.setFullScreen(wasFullScreen);
+
+            preparationViewController.setMainScene(currentStage.getScene());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -129,18 +134,26 @@ public class StartViewController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/instructions-view.fxml"));
             Parent root = fxmlLoader.load();
 
-            // Accedemos al controlador y le pasamos la escena anterior para poder volver
+            // Accedemos al controlador y al stage
             InstructionsController instructionsController = fxmlLoader.getController();
             Stage currentStage = (Stage) instructionsButton.getScene().getWindow();
-            instructionsController.setMainScene(currentStage.getScene());
 
-            //Mostramos la nueva scene
+            // Guardamos el estado fullscreen actual
+            boolean wasFullScreen = currentStage.isFullScreen();
+
+            // Creamos y aplicamos la nueva escena
             Scene instructionScene = new Scene(root);
             currentStage.setScene(instructionScene);
+
+            // Restauramos el estado DESPUÉS de setScene
+            currentStage.setFullScreen(wasFullScreen);
+
+            // Pasamos el stage al controlador
+            instructionsController.setMainScene(currentStage.getScene());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            System.out.println("Se termino la excepcion.");
+            System.out.println("Se movio al stage Instructions correctamente.");
         }
     }
     // Cierra la aplicacion

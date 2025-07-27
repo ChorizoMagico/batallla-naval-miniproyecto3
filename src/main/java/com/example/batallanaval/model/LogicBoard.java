@@ -1,7 +1,6 @@
 package com.example.batallanaval.model;
 
 
-import com.example.batallanaval.controller.BoatAdapter;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
