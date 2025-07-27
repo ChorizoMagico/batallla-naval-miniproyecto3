@@ -1,6 +1,7 @@
 package com.example.batallanaval.model;
 
 
+import com.example.batallanaval.controller.BoatAdapter;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -14,10 +15,10 @@ import java.util.*;
 public class LogicBoard implements Serializable {
     private static final int BOARD_SIZE = 10;
     private int[][] board;
-    private List<Boat> boats;
-    private ArrayList<Boat> availableBoats;
     private ArrayList<Integer> shotPositions;
-    private Boat selectedBoat;
+    private List<IBoat> boats;
+    private ArrayList<IBoat> availableBoats;
+    private IBoat selectedBoat;
 
     private static final int WATER = 0;
     private static final int BOAT = 1;
@@ -31,28 +32,33 @@ public class LogicBoard implements Serializable {
         selectedBoat = null;
         availableBoats = new ArrayList<>();
 
-        for(int i =0; i < 10; i++ ){
-            if(i < 1){
-                availableBoats.add(new Boat(4, 4, false));
-                availableBoats.get(i).createAircraftCarrier();
+        for (int i = 0; i < 10; i++) {
+            Boat rawBoat;
+            if (i < 1) {
+                rawBoat = new Boat(4, 4, false);
+                rawBoat.createAircraftCarrier();
+            } else if (i < 3) {
+                rawBoat = new Boat(3, 3, false);
+                rawBoat.createSubmarine();
+            } else if (i < 6) {
+                rawBoat = new Boat(2, 2, false);
+                rawBoat.createDestructor();
+            } else {
+                rawBoat = new Boat(1, 1, false);
+                rawBoat.createFrigate();
             }
-            else if(i < 3){
-                availableBoats.add(new Boat(3, 3, false));
-                availableBoats.get(i).createSubmarine();}
-            else if (i < 6) {
-                availableBoats.add(new Boat(2, 2, false));
-                availableBoats.get(i).createDestructor();}
-            else if (i < 10) {
-                availableBoats.add(new Boat(1, 1, false));
-                availableBoats.get(i).createFrigate();}
+
+            IBoat boat = new BoatAdapter(rawBoat);
+            availableBoats.add(boat);
         }
+
     }
 
-    public ArrayList<Boat> getAvailableBoats() {
+    public ArrayList<IBoat> getAvailableBoats() {
         return availableBoats;
     }
 
-    public List<Boat> getPlacedBoats() {
+    public List<IBoat> getPlacedBoats() {
         return boats;
     }
 
@@ -79,46 +85,34 @@ public class LogicBoard implements Serializable {
         }
     }
 
-    public Boat getSelectedBoat() {
+    public IBoat getSelectedBoat() {
         return selectedBoat;
     }
 
-    public boolean placeBoat(int row, int col, Boat boat) {
+    public boolean placeBoat(int row, int col, IBoat boat) {
         int size = boat.getSize();
         boolean isHorizontal = boat.getIsHorizontal();
 
+        if (isHorizontal && col + size > BOARD_SIZE) return false;
+        if (!isHorizontal && row + size > BOARD_SIZE) return false;
 
-        if (isHorizontal)
-        {
-            if (col + size > BOARD_SIZE) return false;
-        } else {
-            if (row + size > BOARD_SIZE) return false;
+        for (int i = 0; i < size; i++) {
+            int r = isHorizontal ? row : row + i;
+            int c = isHorizontal ? col + i : col;
+            if (board[r][c] != WATER) return false;
         }
 
-        if (isHorizontal) {
-            for (int c = col; c < col + size; c++) {
-                if (board[row][c] != WATER) return false;
-            }
-        } else {
-            for (int r = row; r < row + size; r++) {
-                if (board[r][col] != WATER) return false;
-            }
-        }
-
-        if (isHorizontal) {
-            for (int c = col; c < col + size; c++) {
-                board[row][c] = BOAT;
-            }
-        } else {
-            for (int r = row; r < row + size; r++) {
-                board[r][col] = BOAT;
-            }
+        for (int i = 0; i < size; i++) {
+            int r = isHorizontal ? row : row + i;
+            int c = isHorizontal ? col + i : col;
+            board[r][c] = BOAT;
         }
 
         boat.setPosition(row, col);
         boats.add(boat);
         return true;
     }
+
 
 
     public int shoot(int row, int col) {
@@ -142,7 +136,7 @@ public class LogicBoard implements Serializable {
 
         // Si es un barco
         if (currentState == BOAT) {
-            Boat affectedBoat = findBoatAt(row, col);
+            IBoat affectedBoat = findBoatAt(row, col);
             if (affectedBoat != null) {
                 affectedBoat.reduceResistance();
                 if (affectedBoat.getResistance() <= 0) {
@@ -159,8 +153,8 @@ public class LogicBoard implements Serializable {
     }
 
 
-    public Boat findBoatAt(int row, int col) {
-        for (Boat boat : boats) {
+    public IBoat findBoatAt(int row, int col) {
+        for (IBoat boat : boats) {
             if (isPartOfBoat(boat, row, col)) {
                 return boat;
             }
@@ -169,7 +163,7 @@ public class LogicBoard implements Serializable {
     }
 
 
-    private boolean isPartOfBoat(Boat boat, int row, int col) {
+    private boolean isPartOfBoat(IBoat boat, int row, int col) {
         int[] positions = boat.getPosition();
         int boatRow = positions[0];
         int boatCol = positions[1];
@@ -184,7 +178,7 @@ public class LogicBoard implements Serializable {
     }
 
 
-    private void markBoatAsSunk(Boat boat) {
+    private void markBoatAsSunk(IBoat boat) {
         // Buscar todas las celdas que pertenecen a este barco
         int[] position = boat.getPosition();
         int row = position[0];
@@ -202,7 +196,7 @@ public class LogicBoard implements Serializable {
 
     public boolean isGameOver() {
         // Verificar si quedan barcos no hundidos
-        for (Boat boat : boats) {
+        for (IBoat boat : boats) {
             if (boat.getResistance() > 0) {
                 return false;
             }
@@ -226,7 +220,7 @@ public class LogicBoard implements Serializable {
     }
 
 
-    public List<Boat> getBoats() {
+    public List<IBoat> getBoats() {
         return new ArrayList<>(boats);
     }
 
@@ -333,7 +327,7 @@ public class LogicBoard implements Serializable {
                     }
                 }
 
-                for (Boat boat : playerBoard.getBoats()) {
+                for (IBoat boat : playerBoard.getBoats()) {
                     if (boat.getResistance() == 0) {
                         int[] position = boat.getPosition();
                         int row = position[0];
@@ -387,9 +381,9 @@ public class LogicBoard implements Serializable {
                 }
             }
 
-            List<Boat> boats = playerBoard.getBoats();
+            List<IBoat> boats = playerBoard.getBoats();
             for (int b = 0; b < boats.size(); b++) {
-                Boat boat = boats.get(b);
+                IBoat boat = boats.get(b);
                 int[] position = boat.getPosition();
                 int row = position[0];
                 int col = position[1];
