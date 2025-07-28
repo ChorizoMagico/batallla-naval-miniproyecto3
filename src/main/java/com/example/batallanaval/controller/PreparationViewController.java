@@ -16,11 +16,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.security.cert.PolicyNode;
 import java.util.ArrayList;
 
 
@@ -41,13 +43,13 @@ public class PreparationViewController {
     private GridPane boardGrid;
 
     @FXML
-    private AnchorPane boatPane;
+    private BorderPane borderPane;
 
     @FXML
     private Label boatLabel;
 
     @FXML
-    private AnchorPane anchorPane;
+    private StackPane boatContainer;
 
     @FXML
     private Label errorLabel;
@@ -74,16 +76,27 @@ public class PreparationViewController {
      */
     @FXML
     private void initialize(){
+        // Eventos de botones
         returnButton.setOnAction(this::handleReturn);
         playButton.setOnAction(this::handlePlay);
-        anchorPane.setOnKeyPressed(this::handleReturnBoat);
+
+        // Evento de teclado
+        borderPane.setOnKeyPressed(this::handleReturnBoat);
+
+        // Inicializan el tablero
         playerBoard = new LogicBoard();
         drawBoard = playerBoard.new DrawBoard();
         boatsStack = new StackPane[10][10];
-        createShowPane();
-        loadShowBoatPane();
-        drawBoard.loadGridPaneWithWater(boardGrid, boatsStack);
+
+        // Configuracion de la interfaz grafica
+        createShowPane(); // Prepara el panel lateral que muestra los barcos disponibles
+        loadShowBorderPane(); // Actualiza la visualización del barco seleccionado
+        drawBoard.loadGridPaneWithWater(boardGrid, boatsStack); // Dibuja el tablero principal con celdas de agua
+
+        // Configuracion de eventos de clic
         handleLoadBoard();
+
+        // Inicialización de Handlers de Archivos
         plainTextFileHandler = new PlainTextFileHandler();
         serializableFileHandler = new SerializableFileHandler();
     }
@@ -108,7 +121,7 @@ public class PreparationViewController {
             if (event.getCode() == KeyCode.Z && event.isControlDown() & !playerBoard.getSelectedBoat().getIsHorizontal()) {
                 playerBoard.returnBoat();
                 loadShowPane();
-                loadShowBoatPane();
+                loadShowBorderPane();
             }
 
             if (event.getCode() == KeyCode.R ) {
@@ -121,6 +134,7 @@ public class PreparationViewController {
      * Creates the right grid with all the available boats
      */
     private void createShowPane(){
+        System.out.println("entro al createShowPane");
         showPane.getChildren().clear();
         boatsStackAvailable = new StackPane[10];
         for (int i = 0; i < 10; i++) {
@@ -149,13 +163,13 @@ public class PreparationViewController {
     /**
      * Shows the selected boat in a small rectangle
      */
-    private void loadShowBoatPane(){
-        boatPane.getChildren().clear();
+    private void loadShowBorderPane(){
+        borderPane.getChildren().clear();
         if(playerBoard.isBoatSelected()){
-            boatPane.getChildren().add(playerBoard.getSelectedBoat().getShape());
-            boatLabel.setText(playerBoard.getSelectedBoat().getType());
-        }
-        else{
+            boatContainer.getChildren().addAll(
+                playerBoard.getSelectedBoat().getShape(),
+                new Label(playerBoard.getSelectedBoat().getType()));
+        } else {
             boatLabel.setText("Barco sin seleccionar");
         }
     }
@@ -214,7 +228,7 @@ public class PreparationViewController {
                     if(!boatsStackAvailable[index].getChildren().isEmpty() & !playerBoard.isBoatSelected()){
                         playerBoard.selectBoat(index);
                         loadShowPane();
-                        loadShowBoatPane();
+                        loadShowBorderPane();
                         errorLabel.setText("Barco seleccionado con éxito!");
                     }
                 }
@@ -236,7 +250,7 @@ public class PreparationViewController {
                     public void handle(MouseEvent event) {
                         if (playerBoard.isBoatSelected() && playerBoard.placeBoat(index,index2, playerBoard.getSelectedBoat())){
                             playerBoard.emptySelectedBoat();
-                            loadShowBoatPane();
+                            loadShowBorderPane();
                             drawBoard.loadGridPane(boatsStack, playerBoard);
                             errorLabel.setText("Barco colocado con éxito!");
                         }else{

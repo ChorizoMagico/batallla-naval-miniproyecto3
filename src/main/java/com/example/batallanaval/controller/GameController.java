@@ -124,7 +124,6 @@ public class GameController {
     @FXML
     private void handleReturn(ActionEvent actionEvent) {
         saveState();
-
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(mainScene);
     }

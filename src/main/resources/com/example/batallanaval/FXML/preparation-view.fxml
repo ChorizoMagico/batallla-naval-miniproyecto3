@@ -1,74 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane fx:id="anchorPane" onKeyPressed="#handleReturnBoat" prefHeight="608.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.batallanaval.controller.PreparationViewController">
-    <children>
-      <GridPane fx:id="boardGrid" gridLinesVisible="true" layoutX="35.0" layoutY="68.0" prefHeight="396.0" prefWidth="412.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Group />
-            <Button prefHeight="41.0" prefWidth="42.0" visible="false" />
-         </children>
-      </GridPane>
-        <Button fx:id="returnButton" layoutX="389.0" layoutY="550.0" onAction="#handleReturn" text="Exit" />
-      <Button fx:id="playButton" layoutX="375.0" layoutY="494.0" onAction="#handlePlay" prefHeight="40.0" prefWidth="63.0" text="Play" />
-      <GridPane fx:id="showPane" gridLinesVisible="true" layoutX="496.0" layoutY="68.0" prefHeight="396.0" prefWidth="291.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-      <Label fx:id="boatLabel" alignment="CENTER" layoutX="570.0" layoutY="490.0" prefHeight="25.0" prefWidth="143.0" text="Barco sin seleccionar" textAlignment="CENTER">
-         <font>
-            <Font name="Cambria Math" size="14.0" />
-         </font>
-      </Label>
-      <AnchorPane fx:id="boatPane" layoutX="496.0" layoutY="515.0" prefHeight="80.0" prefWidth="291.0" />
-      <Label fx:id="errorLabel" alignment="CENTER" layoutX="328.0" layoutY="14.0" prefHeight="40.0" prefWidth="239.0" text="Seleccione un barco" textAlignment="CENTER">
-         <font>
-            <Font name="Cambria Math" size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="nameField" layoutX="143.0" layoutY="514.0" prefHeight="25.0" prefWidth="184.0" />
-      <Label layoutX="22.0" layoutY="507.0" prefHeight="33.0" prefWidth="111.0" text="Inserte su nombre:" />
-    </children>
-</AnchorPane>
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="borderPane"
+            fx:controller="com.example.batallanaval.controller.PreparationViewController">
+    <center>
+    <HBox alignment="CENTER" spacing="30" >
+        <!-- Panel izquierdo - Tablero -->
+        <VBox alignment="CENTER" spacing="20" >
+            <Label text="Coloca tus barcos" />
+            <GridPane fx:id="boardGrid" gridLinesVisible="true" />
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Inserte su nombre:" />
+                <TextField fx:id="nameField" />
+            </HBox>
+        </VBox>
+
+        <!-- Panel derecho - Selección de barcos -->
+        <VBox alignment="CENTER" spacing="20" >
+            <Label text="Selección de barcos" />
+            <GridPane fx:id="showPane" gridLinesVisible="true" />
+            <StackPane fx:id="boatContainer" >
+                <Label fx:id="boatLabel" text="Barco sin seleccionar" />
+            </StackPane>
+            <Label fx:id="errorLabel" text="Seleccione un barco" />
+            <AnchorPane styleClass="boat-preview"/>
+
+            <HBox spacing="20" alignment="CENTER">
+                <Button fx:id="playButton" text="Jugar" />
+                <Button fx:id="returnButton" text="Salir" />
+            </HBox>
+        </VBox>
+    </HBox>
+    </center>
+</BorderPane>
+
+        <!--
+        <AnchorPane fx:id="anchorPane" onKeyPressed="#handleReturnBoat" prefHeight="608.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.batallanaval.controller.PreparationViewController">
+            <children>
+              <GridPane fx:id="boardGrid" gridLinesVisible="true" layoutX="35.0" layoutY="68.0" prefHeight="396.0" prefWidth="412.0">
+                <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                </columnConstraints>
+                <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+                 <children>
+                    <Group />
+                    <Button prefHeight="41.0" prefWidth="42.0" visible="false" />
+                 </children>
+              </GridPane>
+                <Button fx:id="returnButton" layoutX="389.0" layoutY="550.0" onAction="#handleReturn" text="Exit" />
+              <Button fx:id="playButton" layoutX="375.0" layoutY="494.0" onAction="#handlePlay" prefHeight="40.0" prefWidth="63.0" text="Play" />
+              <GridPane fx:id="showPane" gridLinesVisible="true" layoutX="496.0" layoutY="68.0" prefHeight="396.0" prefWidth="291.0">
+                <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                </columnConstraints>
+                <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+              </GridPane>
+              <Label fx:id="boatLabel" alignment="CENTER" layoutX="570.0" layoutY="490.0" prefHeight="25.0" prefWidth="143.0" text="Barco sin seleccionar" textAlignment="CENTER">
+                 <font>
+                    <Font name="Cambria Math" size="14.0" />
+                 </font>
+              </Label>
+              <AnchorPane fx:id="boatPane" layoutX="496.0" layoutY="515.0" prefHeight="80.0" prefWidth="291.0" />
+              <Label fx:id="errorLabel" alignment="CENTER" layoutX="328.0" layoutY="14.0" prefHeight="40.0" prefWidth="239.0" text="Seleccione un barco" textAlignment="CENTER">
+                 <font>
+                    <Font name="Cambria Math" size="14.0" />
+                 </font>
+              </Label>
+              <TextField fx:id="nameField" layoutX="143.0" layoutY="514.0" prefHeight="25.0" prefWidth="184.0" />
+              <Label layoutX="22.0" layoutY="507.0" prefHeight="33.0" prefWidth="111.0" text="Inserte su nombre:" />
+            </children>
+        </AnchorPane>
+        -->
