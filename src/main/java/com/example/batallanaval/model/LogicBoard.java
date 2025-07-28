@@ -22,6 +22,7 @@ import java.util.*;
  */
 public class LogicBoard extends LogicBoardAdapter {
 
+
     /**
      * Constructs a LogicBoard with a 10x10 board and initializes the fleet:
      * 1 Aircraft Carrier, 2 Submarines, 3 Destroyers, and 4 Frigates.
@@ -90,7 +91,7 @@ public class LogicBoard extends LogicBoardAdapter {
                     }
                 }
 
-                for (Boat boat : playerBoard.getBoats()) {
+                for (IBoat boat : playerBoard.getBoats()) {
                     if (boat.getResistance() == 0) {
                         int[] position = boat.getPosition();
                         int row = position[0];
