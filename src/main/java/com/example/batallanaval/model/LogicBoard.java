@@ -11,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import java.io.Serializable;
 import java.util.*;
 
+
 /**
  * LogicBoard represents the main logic structure of the game board.
  * It initializes a 10x10 board and sets up the available fleet.
@@ -90,7 +91,7 @@ public class LogicBoard extends LogicBoardAdapter {
                     }
                 }
 
-                for (Boat boat : playerBoard.getBoats()) {
+                for (IBoat boat : playerBoard.getBoats()) {
                     if (boat.getResistance() == 0) {
                         int[] position = boat.getPosition();
                         int row = position[0];
