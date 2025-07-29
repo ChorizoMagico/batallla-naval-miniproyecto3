@@ -117,7 +117,6 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     /**
      * Creates the right grid with all the available boats
      */
-    @Override
     public void createShowPane(){
         showPane.getChildren().clear();
         boatsStackAvailable = new StackPane[10];

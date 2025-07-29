@@ -8,9 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
-import java.io.Serializable;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * LogicBoard represents the main logic structure of the game board.
@@ -22,7 +21,6 @@ import java.util.*;
  * @author Steven Fernando Aragón
  */
 public class LogicBoard extends LogicBoardAdapter {
-
     /**
      * Constructs a LogicBoard with a 10x10 board and initializes the fleet:
      * 1 Aircraft Carrier, 2 Submarines, 3 Destroyers, and 4 Frigates.
@@ -91,7 +89,7 @@ public class LogicBoard extends LogicBoardAdapter {
                     }
                 }
 
-                for (IBoat boat : playerBoard.getBoats()) {
+                for (Boat boat : playerBoard.getBoats()) {
                     if (boat.getResistance() == 0) {
                         int[] position = boat.getPosition();
                         int row = position[0];

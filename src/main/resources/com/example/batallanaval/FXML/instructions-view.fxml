@@ -3,24 +3,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles-instructions.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.batallanaval.controller.InstructionsController">
-    <children>
-        <VBox alignment="BASELINE_CENTER" layoutY="1.0" prefHeight="400.0" prefWidth="600.0" styleClass="vbox" stylesheets="@../css/styles-instructions.css" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.bottomAnchor="0">
-            <children>
-                <TextFlow fx:id="instructionsFlow" styleClass="text-flow" textAlignment="JUSTIFY" VBox.vgrow="ALWAYS">
-                    <Text styleClass="titulo" text="Instrucciones del Juego&#10;"/>
-                    <Text styleClass="sub-titulo" text="🎯 Objetivo&#10;" />
-                    <Text styleClass="parrafo" text="¡Hundir todos los barcos enemigos antes de que ellos hundan los tuyos!&#10;" />
-                    <Text styleClass="sub-titulo" text="🧩 Cómo Jugar&#10;" />
-                    <Text styleClass="parrafo" text="1. Manejo de los barcos:&#10;Cada jugador (tú y la IA) tiene una cuadrícula.&#10;Debes colocar tus barcos en tu tablero (horizontal o vertical).&#10;Los barcos no pueden superponerse ni salir del tablero.&#10;2. Fase de batalla:&#10;jugadores se turnan para atacar disparando a una celda del tablero enemigo.&#10;- Si aciertas, se marcará como impacto.&#10;- Si fallas, se marcará como agua.&#10;3. Barcos comunes:&#10;- Portaviones (5 casillas)&#10;- Submarino (3 casillas)&#10;- Destructor (2 casillas)&#10;4. Ganador:&#10;- El primer jugador en hundir todos los barcos enemigos gana.&#10;" />
-                    <Text styleClass="sub-titulo" text="🕹️ Controles&#10;" />
-                    <Text styleClass="parrafo" text="- Haz clic en una celda del tablero para atacar.&#10;- Usa la tecla R para rotar el barco.&#10;- Usa clic izquierdo en un barco para seleccionar, y otro clic izquierod en la celda para poner el barco.&#10;" />
-                    <Text styleClass="sub-titulo" text="💡 Consejos&#10;" />
-                    <Text styleClass="parrafo" text="- ¡Dispara estratégicamente! Cuando aciertes un barco, explora a su alrededor.&#10;- Recuerda la ubicación de los tiros anteriores para evitar perder turnos.&#10;- Sigue los mensajes del sistema para saber si acertaste o fallaste.&#10;" />
-                    <Button fx:id="returnButton" onAction="#handleReturn" text="Return" />
-                </TextFlow>
-            </children>
-        </VBox>
-    </children>
-</AnchorPane>
+<ScrollPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.batallanaval.controller.InstructionsController"
+            fitToWidth="true"
+            hbarPolicy="NEVER"
+            vbarPolicy="AS_NEEDED"
+            stylesheets="@../css/styles-instructions.css"  >
+    <VBox fx:id="vBox"
+          styleClass="vbox"
+          alignment="TOP_LEFT"
+          spacing="10">
+        <TextFlow fx:id="instructionsFlow"
+                          maxWidth="Infinity" maxHeight="Infinity"
+                          textAlignment="JUSTIFY" VBox.vgrow="ALWAYS"
+                          styleClass="text-flow" >
+            <Text styleClass="titulo" text="Instrucciones del Juego:&#10;&#10;"/>
+            <Text styleClass="sub-titulo" text="🎯 Objetivo&#10;" />
+            <Text styleClass="parrafo" text="¡Hundir todos los barcos enemigos antes de que ellos hundan los tuyos!&#10;&#10;" />
+            <Text styleClass="sub-titulo" text="🧩 Cómo Jugar&#10;" />
+            <Text styleClass="parrafo" text="1. Manejo de los barcos:&#10;Cada jugador (tú y la IA) tiene una cuadrícula.&#10;Debes colocar tus barcos en tu tablero (horizontal o vertical).&#10;Los barcos no pueden superponerse ni salir del tablero.&#10;2. Fase de batalla:&#10;jugadores se turnan para atacar disparando a una celda del tablero enemigo.&#10;- Si aciertas, se marcará como impacto.&#10;- Si fallas, se marcará como agua.&#10;3. Barcos comunes:&#10;- Portaviones (5 casillas)&#10;- Submarino (3 casillas)&#10;- Destructor (2 casillas)&#10;4. Ganador:&#10;- El primer jugador en hundir todos los barcos enemigos gana.&#10;&#10;" />
+            <Text styleClass="sub-titulo" text="🕹️ Controles&#10;" />
+            <Text styleClass="parrafo" text="- Haz clic en una celda del tablero para atacar.&#10;- Usa la tecla R para rotar el barco.&#10;- Usa clic izquierdo en un barco para seleccionar, y otro clic izquierod en la celda para poner el barco.&#10;&#10;" />
+            <Text styleClass="sub-titulo" text="💡 Consejos&#10;" />
+            <Text styleClass="parrafo" text="- ¡Dispara estratégicamente! Cuando aciertes un barco, explora a su alrededor.&#10;- Recuerda la ubicación de los tiros anteriores para evitar perder turnos.&#10;- Sigue los mensajes del sistema para saber si acertaste o fallaste.&#10;" />
+        </TextFlow>
+        <Button fx:id="returnButton" onAction="#handleReturn" text="Regresar" alignment="CENTER"/>
+    </VBox>
+</ScrollPane>
 
