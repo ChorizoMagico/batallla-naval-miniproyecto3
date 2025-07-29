@@ -54,6 +54,8 @@ public abstract class StartViewControllerAdapter implements IStartViewController
             // Cerramos la scene
             PreparationViewController preparationViewController = fxmlLoader.getController();
             Stage currentStage = (Stage) startPlayButton.getScene().getWindow();
+
+
             preparationViewController.setMainScene(currentStage.getScene());
 
             // Mostramos la neuva scene
