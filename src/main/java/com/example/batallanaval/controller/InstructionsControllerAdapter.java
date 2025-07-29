@@ -18,7 +18,10 @@ public abstract class InstructionsControllerAdapter implements IInstructionsCont
     @FXML
     public void handleReturn(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setFullScreen(true);
         stage.setScene(mainScene);
+        stage.setFullScreen(true);
     }
+
+
+
 }

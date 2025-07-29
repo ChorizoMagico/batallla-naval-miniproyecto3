@@ -61,6 +61,7 @@ public abstract class StartViewControllerAdapter implements IStartViewController
             // Mostramos la neuva scene
             Scene gameScene = new Scene(root);
             currentStage.setScene(gameScene);
+            currentStage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -116,6 +117,7 @@ public abstract class StartViewControllerAdapter implements IStartViewController
 
                 Scene gameScene = new Scene(root);
                 currentStage.setScene(gameScene);
+                currentStage.setFullScreen(true);
             } catch (IOException | ClassCastException e) {
                 e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -143,6 +145,7 @@ public abstract class StartViewControllerAdapter implements IStartViewController
             //Mostramos la nueva scene
             Scene instructionScene = new Scene(root);
             currentStage.setScene(instructionScene);
+            currentStage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

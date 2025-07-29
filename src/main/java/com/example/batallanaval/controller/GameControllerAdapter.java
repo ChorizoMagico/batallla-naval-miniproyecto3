@@ -4,7 +4,9 @@ import com.example.batallanaval.model.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public abstract class GameControllerAdapter implements IGameController {
@@ -122,10 +125,22 @@ public abstract class GameControllerAdapter implements IGameController {
     @Override
     @FXML
     public void handleReturn(ActionEvent actionEvent) {
-        saveState();
+        saveState(); // Guarda el estado del juego si es necesario
 
+        // Obtener el Stage actual
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(mainScene);
+
+        // Cargar start-view.fxml directamente
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/start-view.fxml"));
+            Parent root = loader.load();
+            Scene startScene = new Scene(root);
+            stage.setScene(startScene);
+            stage.setFullScreen(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Manejar el error adecuadamente
+        }
     }
 
     @Override

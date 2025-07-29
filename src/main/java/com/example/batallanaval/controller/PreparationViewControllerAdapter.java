@@ -195,6 +195,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
             // Mostramos la neuva scene
             Scene gameScene = new Scene(root);
             currentStage.setScene(gameScene);
+            currentStage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

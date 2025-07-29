@@ -19,8 +19,7 @@
             stylesheets="@../css/styles-preparation.css"
             style="-fx-background-color: #8ebdb6" >
     <children>
-        <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"
-        >
+        <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
             <!-- Título -->
             <Label text="Esconde tus barcos"
                    style="
