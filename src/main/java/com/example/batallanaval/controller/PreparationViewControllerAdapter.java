@@ -124,7 +124,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
         for (int i = 0; i < 10; i++) {
             boatsStackAvailable[i] = new StackPane();
             boatsStackAvailable[i].setStyle("-fx-border-color: black; -fx-border-width: 1;");
-            boatsStackAvailable[i].setAlignment(Pos.TOP_LEFT);
+            boatsStackAvailable[i].setAlignment(Pos.CENTER);
             showPane.add(boatsStackAvailable[i], i % 5, i / 5);
         }
         loadShowPane();
