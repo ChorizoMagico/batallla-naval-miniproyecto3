@@ -113,6 +113,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
      */
     @FXML
     public void initialize(){
+
         returnButton.setOnAction(this::handleReturn);
         playButton.setOnAction(this::handlePlay);
         anchorPane.setOnKeyPressed(this::handleReturnBoat);
@@ -127,6 +128,12 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
         serializableFileHandler = new SerializableFileHandler();
     }
 
+    @FXML
+    private void handleUnfocus(MouseEvent event) {
+        // Quita el foco del nameField transfiriéndolo al anchorPane
+        anchorPane.requestFocus();
+    }
+
     /**
      * Handle the exit button functionality, reutirning the player to the previous scene
      * @param actionEvent the event which starts when someone clicks the exit button
@@ -136,6 +143,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     public void handleReturn(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(mainScene);
+        stage.setFullScreen(true);
     }
 
     /**
@@ -241,6 +249,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
             // Mostramos la neuva scene
             Scene gameScene = new Scene(root);
             currentStage.setScene(gameScene);
+            currentStage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

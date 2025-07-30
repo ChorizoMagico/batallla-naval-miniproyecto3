@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,6 +29,13 @@ public class LogicBoard extends LogicBoardAdapter {
     public LogicBoard() {
         board = new int[BOARD_SIZE][BOARD_SIZE];
         boats = new ArrayList<>();
+
+        shotPositions = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            shotPositions.add(i);
+        }
+        Collections.shuffle(shotPositions);
+
         selectedBoat = null;
         availableBoats = new ArrayList<>();
 

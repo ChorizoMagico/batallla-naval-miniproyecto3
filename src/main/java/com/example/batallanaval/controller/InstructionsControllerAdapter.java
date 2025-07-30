@@ -44,5 +44,6 @@ public abstract class InstructionsControllerAdapter implements IInstructionsCont
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setFullScreen(true);
         stage.setScene(mainScene);
+        stage.setFullScreen(true);
     }
 }

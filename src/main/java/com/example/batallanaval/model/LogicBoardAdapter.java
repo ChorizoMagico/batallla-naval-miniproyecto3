@@ -35,6 +35,7 @@ public abstract class LogicBoardAdapter implements ILogicBoard, Serializable {
      */
     protected List<Boat> boats;
 
+
     /**
      * The boats who are not in the board
      */
@@ -393,21 +394,18 @@ public abstract class LogicBoardAdapter implements ILogicBoard, Serializable {
      */
     @Override
     public int randomShooting() {
-        shotPositions = new ArrayList<>();
-        for (int p = 1; p <= 100; p++) {
-            shotPositions.add(p);
+
+        while (!shotPositions.isEmpty()) {
+            int actualPosition = shotPositions.remove(0);
+            int row = actualPosition / 10;
+            int col = actualPosition % 10;
+
+            int result = shoot(row, col);
+            if (result != 3) { // 3 means already shot, so skip those
+                return result;
+            }
         }
 
-        Collections.shuffle(shotPositions);
-        int actualPosition = shotPositions.get(0);
-        int row = (actualPosition - 1) / 10 + 1;
-        int col = (actualPosition - 1) % 10 + 1;
-
-        int result = shoot(row, col);
-        if (result == 1 || result == 2) {
-            shotPositions.remove(Integer.valueOf(actualPosition));
-        }
-
-        return result;
+        return 0; // fallback if everything was already shot
     }
 }
