@@ -1,0 +1,142 @@
+Button {
+    -fx-background-color: #063940 ;
+    -fx-border-color: #195e63;
+    -fx-border-width: 1px;
+    -fx-background-radius: 10 10 10 10;
+    -fx-border-radius: 10 10 10 10;
+    -fx-text-fill: #fff;
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-cursor: hand;
+}
+
+Button:hover {
+    -fx-background-color: #195e63 ;
+    -fx-text-fill: #fff;
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+}
+/* Estilos generales */
+.root {
+    -fx-background-color: linear-gradient(to bottom, #1a2a6c, #b21f1f, #fdbb2d);
+    -fx-font-family: 'Arial';
+}
+
+/* Encabezado */
+.header-container {
+    -fx-padding: 20;
+}
+
+.title-label {
+    -fx-text-fill: white;
+    -fx-font-size: 28pt;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
+}
+
+.message-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
+}
+
+/* Contenedor de tableros */
+.boards-container {
+    -fx-padding: 20;
+}
+
+/* Wrapper de cada tablero */
+.board-wrapper {
+    -fx-padding: 10;
+}
+
+.board-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16pt;
+    -fx-font-weight: bold;
+}
+
+/* Grid de juego */
+.game-grid {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-background-color: rgba(0,0,0,0.3);
+}
+
+.game-grid .label {
+    -fx-alignment: center;
+}
+
+/* Controles */
+.controls-container {
+    -fx-padding: 20;
+}
+
+.stats-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14pt;
+}
+
+/* Botones de acción */
+.action-button {
+    -fx-font-size: 14pt;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
+}
+
+.action-button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.turn-button {
+    -fx-background-color: #4CAF50;
+}
+
+.turn-button:hover {
+    -fx-background-color: #45a049;
+}
+
+.show-button {
+    -fx-background-color: #2196F3;
+}
+
+.show-button:hover {
+    -fx-background-color: #0b7dda;
+}
+
+.exit-button {
+    -fx-background-color: #f44336;
+}
+
+.exit-button:hover {
+    -fx-background-color: #d32f2f;
+}
+
+/* Estados de celdas (para usar desde el controlador) */
+.cell-hit {
+    -fx-background-color: #ff3333;
+    -fx-background-radius: 0;
+}
+
+.cell-miss {
+    -fx-background-color: #cccccc;
+    -fx-background-radius: 0;
+}
+
+.cell-ship {
+    -fx-background-color: #555555;
+    -fx-background-radius: 0;
+}
+
+.cell-water {
+    -fx-background-color: #1a73e8;
+    -fx-background-radius: 0;
+}
