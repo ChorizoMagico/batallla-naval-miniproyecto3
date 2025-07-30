@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styles-start.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.batallanaval.controller.StartViewController">
+   <children>
+      <VBox alignment="BASELINE_CENTER" layoutY="1.0" prefHeight="400.0" prefWidth="600.0" styleClass="vbox" stylesheets="@../css/styles-start.css" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="39.0" prefWidth="163.0" styleClass="welcome-title" stylesheets="@../css/styles-start.css" text="El mar de Bolivia" textAlignment="CENTER" />
+            <Button fx:id="startPlayButton" alignment="CENTER" mnemonicParsing="false" text="Iniciar Juego" textAlignment="CENTER" />
+            <Button fx:id="continuePlayButton" alignment="CENTER" mnemonicParsing="false" text="Continuar Juego" textAlignment="CENTER" />
+            <Button fx:id="instructionsButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Instrucciones" textAlignment="CENTER" />
+            <Button fx:id="exitPlayButton" alignment="CENTER" mnemonicParsing="false" text="Salir" textAlignment="CENTER" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
