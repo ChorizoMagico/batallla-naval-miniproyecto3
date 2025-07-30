@@ -205,4 +205,6 @@ public abstract class StartViewControllerAdapter implements IStartViewController
     public void handleExit (ActionEvent actionEvent) {
         Platform.exit();
     }
+
+
 }
