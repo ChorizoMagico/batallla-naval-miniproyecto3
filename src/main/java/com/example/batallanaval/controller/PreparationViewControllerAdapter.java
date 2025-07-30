@@ -91,6 +91,9 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     protected Label errorLabel;
 
     @FXML
+    protected Label warningSize;
+
+    @FXML
     protected Button playButton;
 
     @FXML
@@ -221,40 +224,47 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     @FXML
     public void handlePlay(ActionEvent actionEvent) {
         // Cierra el fxml actual y abre el fxml del juego
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
-            Parent root = fxmlLoader.load();
 
-            Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
-            String content = userPlayer.getNickname()+","+userPlayer.getSankBoats()+","+true+","+"Mensaje: Dispara!";
+        if (playerBoard.getBoats().size() == 10) {
+            warningSize.setText("");
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
+                Parent root = fxmlLoader.load();
 
-            LogicBoard cpuBoard = new LogicBoard();
-            cpuBoard.aleatorizeBoard();
+                Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
+                String content = userPlayer.getNickname()+","+userPlayer.getSankBoats()+","+true+","+"Mensaje: Dispara!";
 
-            ArrayList<LogicBoard> gameBoards = new ArrayList<>();
-            gameBoards.add(playerBoard);
-            gameBoards.add(cpuBoard);
+                LogicBoard cpuBoard = new LogicBoard();
+                cpuBoard.aleatorizeBoard();
 
-            GameState gameState = new GameState(gameBoards);
+                ArrayList<LogicBoard> gameBoards = new ArrayList<>();
+                gameBoards.add(playerBoard);
+                gameBoards.add(cpuBoard);
 
-            serializableFileHandler.serialize("board_data.ser", gameState);
-            plainTextFileHandler.writeToFile("player_data.csv", content);
+                GameState gameState = new GameState(gameBoards);
 
-            // Cerramos la scene
-            GameController gameController = fxmlLoader.getController();
-            gameController.setPlayerBoard(userPlayer, cpuBoard, true, "Mensaje: Dispara!");
-            Stage currentStage = (Stage) playButton.getScene().getWindow();
-            gameController.setMainScene(currentStage.getScene());
+                serializableFileHandler.serialize("board_data.ser", gameState);
+                plainTextFileHandler.writeToFile("player_data.csv", content);
 
-            // Mostramos la neuva scene
-            Scene gameScene = new Scene(root);
-            currentStage.setScene(gameScene);
-            currentStage.setFullScreen(true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("Se termino la excepcion.");
+                // Cerramos la scene
+                GameController gameController = fxmlLoader.getController();
+                gameController.setPlayerBoard(userPlayer, cpuBoard, true, "Mensaje: Dispara!");
+                Stage currentStage = (Stage) playButton.getScene().getWindow();
+                gameController.setMainScene(currentStage.getScene());
+
+                // Mostramos la neuva scene
+                Scene gameScene = new Scene(root);
+                currentStage.setScene(gameScene);
+                currentStage.setFullScreen(true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println("Se termino la excepcion.");
+            }
+        } else {
+            warningSize.setText("Debes colocar todos los barcos.");
         }
+
     }
 
     /**

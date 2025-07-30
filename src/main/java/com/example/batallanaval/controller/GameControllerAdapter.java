@@ -263,6 +263,25 @@ public abstract class GameControllerAdapter implements IGameController {
                                 alert.setTitle("Fin del juego");
                                 alert.setHeaderText(null);
                                 alert.setContentText("Ganaste :)");
+                                alert.setOnHidden(evt -> {
+                                    try {
+                                        // Obtener el Stage actual desde cualquier nodo
+                                        Stage stage = (Stage) stackPane.getScene().getWindow();
+
+                                        // Cargar la vista de inicio
+                                        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                                                "/com/example/batallanaval/FXML/start-view.fxml"));
+                                        Parent root = loader.load();
+                                        Scene startScene = new Scene(root);
+
+                                        // Configurar y mostrar la nueva escena
+                                        stage.setScene(startScene);
+                                        stage.setFullScreen(true);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        // Manejar el error adecuadamente
+                                    }
+                                });
                                 alert.showAndWait();
                             };
                         }

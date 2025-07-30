@@ -1,0 +1,152 @@
+/* Estilos generales
+.main-container {
+    -fx-background-color: linear-gradient(to bottom, #1a2a6c, #b21f1f, #fdbb2d);
+    -fx-font-family: 'Arial';
+    -fx-padding: 20;
+}
+
+.content-container {
+    -fx-padding: 20;
+}
+
+.section-title {
+    -fx-text-fill: white;
+    -fx-font-size: 18pt;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 5, 0, 0, 1);
+}
+
+/* Estilos para el tablero */
+.board-container {
+    -fx-spacing: 15;
+    -fx-padding: 15;
+    -fx-background-color: rgba(0,0,0,0.2);
+    -fx-background-radius: 10;
+    -fx-border-color: white;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+}
+
+.game-grid {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-background-color: rgba(0,0,0,0.3);
+}
+
+/* Estilos para la selección de barcos */
+.selection-container {
+    -fx-spacing: 15;
+    -fx-padding: 15;
+    -fx-background-color: rgba(0,0,0,0.2);
+    -fx-background-radius: 10;
+    -fx-border-color: white;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+}
+
+.selection-grid {
+    -fx-border-color: white;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-color: rgba(0,0,0,0.3);
+}
+
+.boat-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.boat-label-container {
+    -fx-alignment: center;
+    -fx-pref-height: 25;
+    -fx-pref-width: 143;
+}
+
+.boat-label-text {
+    -fx-font-family: "Cambria Math";
+    -fx-font-size: 14pt;
+    -fx-alignment: center;
+}
+
+.error-label {
+    -fx-text-fill: #ff3333;
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.boat-preview {
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-border-color: white;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-min-height: 80;
+    -fx-min-width: 291;
+}
+
+/* Estilos para inputs */
+.input-label {
+    -fx-text-fill: white;
+    -fx-font-size: 12pt;
+}
+
+.name-input {
+    -fx-font-size: 12pt;
+    -fx-pref-width: 184;
+    -fx-pref-height: 25;
+    -fx-background-color: rgba(255,255,255,0.8);
+}
+
+/* Estilos para botones */
+.action-button {
+    -fx-font-size: 14pt;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
+    -fx-min-width: 100;
+}
+
+.action-button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.play-button {
+    -fx-background-color: #4CAF50;
+}
+
+.play-button:hover {
+    -fx-background-color: #45a049;
+}
+
+.exit-button {
+    -fx-background-color: #f44336;
+}
+
+.exit-button:hover {
+    -fx-background-color: #d32f2f;
+}
+
+/* Estados de celdas */
+.cell-empty {
+    -fx-background-color: #1a73e8;
+}
+
+.cell-ship {
+    -fx-background-color: #555555;
+}
+
+.cell-invalid {
+    -fx-background-color: #ff3333;
+}
+
+.cell-highlight {
+    -fx-background-color: #ffff33;
+}
