@@ -1,0 +1,36 @@
+/* alert-style.css */
+.custom-alert {
+    -fx-background-color: linear-gradient(to bottom, #e0f7fa, #b2ebf2);
+    -fx-border-color: #0288d1;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 20;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Título */
+.custom-alert .header-panel {
+    -fx-background-color: transparent;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #01579b;
+}
+
+/* Contenido */
+.custom-alert .content {
+    -fx-font-size: 14px;
+    -fx-text-fill: #004d40;
+}
+
+/* Botones */
+.custom-alert .button-bar .button {
+    -fx-background-color: #4dd0e1;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.custom-alert .button-bar .button:hover {
+    -fx-background-color: #00acc1;
+}

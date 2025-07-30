@@ -408,4 +408,9 @@ public abstract class LogicBoardAdapter implements ILogicBoard, Serializable {
 
         return 0; // fallback if everything was already shot
     }
+
+    public int getNumberOfShipsPlaced() {
+        return boats.size();
+    }
+
 }

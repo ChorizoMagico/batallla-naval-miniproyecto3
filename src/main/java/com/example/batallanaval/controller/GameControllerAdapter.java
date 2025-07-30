@@ -10,7 +10,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -115,6 +118,8 @@ public abstract class GameControllerAdapter implements IGameController {
 
     @FXML
     protected GridPane playerGrid;
+
+
 
     /**
      * Sets the main scene for navigation.
@@ -256,34 +261,26 @@ public abstract class GameControllerAdapter implements IGameController {
                             drawBoard.loadShootsInGridPane(cpuStack, cpuBoard, !boardShowing);
 
                             saveState();
-                            if(gameOver) {
+
+                            if (gameOver) {
                                 turnButton.setDisable(true);
                                 playerTurn = false;
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Fin del juego");
-                                alert.setHeaderText(null);
-                                alert.setContentText("Ganaste :)");
-                                alert.setOnHidden(evt -> {
-                                    try {
-                                        // Obtener el Stage actual desde cualquier nodo
-                                        Stage stage = (Stage) stackPane.getScene().getWindow();
 
-                                        // Cargar la vista de inicio
-                                        FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                                                "/com/example/batallanaval/FXML/start-view.fxml"));
-                                        Parent root = loader.load();
-                                        Scene startScene = new Scene(root);
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("🌊 ¡Victoria!");
+                                alert.setHeaderText("🏆 Has ganado la batalla naval, el mar de bolivia esta a salvo!");
+                                alert.setContentText("¡Felicidades, comandante! Tu estrategia ha dado frutos, brrr!!.");
 
-                                        // Configurar y mostrar la nueva escena
-                                        stage.setScene(startScene);
-                                        stage.setFullScreen(true);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                        // Manejar el error adecuadamente
-                                    }
-                                });
+                                Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+                                alertStage.getIcons().add(new Image(getClass().getResourceAsStream("/src/main/resources/com/example/batallanaval/Michicup.png")));
+
+
+                                DialogPane dialogPane = alert.getDialogPane();
+                                dialogPane.getStylesheets().add(getClass().getResource("/css/alert-style.css").toExternalForm());
+                                dialogPane.getStyleClass().add("custom-alert");
+
                                 alert.showAndWait();
-                            };
+                            }
                         }
                     }
                 });
@@ -337,13 +334,23 @@ public abstract class GameControllerAdapter implements IGameController {
         }
         gameOver = playerBoard.isGameOver();
         drawBoard.loadGridPane(playerStack, playerBoard);
-        if(gameOver){
+
+        if (gameOver) {
             turnButton.setDisable(true);
             playerTurn = false;
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Fin del juego");
-            alert.setHeaderText(null);
-            alert.setContentText("Perdiste :(");
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("🎮 Fin del Juego");
+            alert.setHeaderText("¡La batalla ha terminado, el mar de bolivia te quedo grande!");
+            alert.setContentText("😢 Has perdido esta vez...\n\n¡Intenta de nuevo y ponte las pilas!");
+
+            Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
+            alertStage.getIcons().add(new Image(getClass().getResourceAsStream("/com/example/batallanaval/Tralalero.png")));
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add(getClass().getResource("/css/alert-style.css").toExternalForm());
+            dialogPane.getStyleClass().add("custom-alert");
+
+
             alert.showAndWait();
         }
     }
