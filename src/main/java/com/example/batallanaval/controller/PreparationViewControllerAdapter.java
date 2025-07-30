@@ -136,6 +136,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     public void handleReturn(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(mainScene);
+        stage.setFullScreen(true);
     }
 
     /**
@@ -241,6 +242,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
             // Mostramos la neuva scene
             Scene gameScene = new Scene(root);
             currentStage.setScene(gameScene);
+            currentStage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
