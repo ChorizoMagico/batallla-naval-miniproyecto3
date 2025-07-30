@@ -91,9 +91,6 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     protected Label errorLabel;
 
     @FXML
-    protected Label warningSize;
-
-    @FXML
     protected Button playButton;
 
     @FXML
@@ -101,6 +98,9 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
 
     @FXML
     protected Button returnButton;
+
+    @FXML
+    protected Label boatCountLabel;
 
     /**
      * Sets the main scene to allow returning to it.
@@ -129,6 +129,13 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
         handleLoadBoard();
         plainTextFileHandler = new PlainTextFileHandler();
         serializableFileHandler = new SerializableFileHandler();
+
+        try {
+            validarBarcosColocados();
+            playButton.setDisable(false);
+        } catch (ShipsNotPlacedException e) {
+            playButton.setDisable(true);
+        }
     }
 
     @FXML
@@ -223,48 +230,38 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     @Override
     @FXML
     public void handlePlay(ActionEvent actionEvent) {
-        // Cierra el fxml actual y abre el fxml del juego
+        try {
 
-        if (playerBoard.getBoats().size() == 10) {
-            warningSize.setText("");
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
-                Parent root = fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
+            Parent root = fxmlLoader.load();
 
-                Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
-                String content = userPlayer.getNickname()+","+userPlayer.getSankBoats()+","+true+","+"Mensaje: Dispara!";
+            Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
+            String content = userPlayer.getNickname() + "," + userPlayer.getSankBoats() + "," + true + "," + "Mensaje: Dispara!";
 
-                LogicBoard cpuBoard = new LogicBoard();
-                cpuBoard.aleatorizeBoard();
+            LogicBoard cpuBoard = new LogicBoard();
+            cpuBoard.aleatorizeBoard();
 
-                ArrayList<LogicBoard> gameBoards = new ArrayList<>();
-                gameBoards.add(playerBoard);
-                gameBoards.add(cpuBoard);
+            ArrayList<LogicBoard> gameBoards = new ArrayList<>();
+            gameBoards.add(playerBoard);
+            gameBoards.add(cpuBoard);
 
-                GameState gameState = new GameState(gameBoards);
+            GameState gameState = new GameState(gameBoards);
 
-                serializableFileHandler.serialize("board_data.ser", gameState);
-                plainTextFileHandler.writeToFile("player_data.csv", content);
+            serializableFileHandler.serialize("board_data.ser", gameState);
+            plainTextFileHandler.writeToFile("player_data.csv", content);
 
-                // Cerramos la scene
-                GameController gameController = fxmlLoader.getController();
-                gameController.setPlayerBoard(userPlayer, cpuBoard, true, "Mensaje: Dispara!");
-                Stage currentStage = (Stage) playButton.getScene().getWindow();
-                gameController.setMainScene(currentStage.getScene());
+            GameController gameController = fxmlLoader.getController();
+            gameController.setPlayerBoard(userPlayer, cpuBoard, true, "Mensaje: Dispara!");
+            Stage currentStage = (Stage) playButton.getScene().getWindow();
+            gameController.setMainScene(currentStage.getScene());
 
-                // Mostramos la neuva scene
-                Scene gameScene = new Scene(root);
-                currentStage.setScene(gameScene);
-                currentStage.setFullScreen(true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                System.out.println("Se termino la excepcion.");
-            }
-        } else {
-            warningSize.setText("Debes colocar todos los barcos.");
+            Scene gameScene = new Scene(root);
+            currentStage.setScene(gameScene);
+            currentStage.setFullScreen(true);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
     /**
@@ -305,6 +302,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
                             playerBoard.emptySelectedBoat();
                             loadShowBoatPane();
                             drawBoard.loadGridPane(boatsStack, playerBoard);
+                            updateBoatCountLabel();
                             errorLabel.setText("Barco colocado con éxito!");
                         }else{
                             if(playerBoard.isBoatSelected()){
@@ -314,6 +312,18 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
                     }
                 });
             }
+        }
+    }
+
+    public void updateBoatCountLabel() {
+        int placed = playerBoard.getNumberOfShipsPlaced();
+        boatCountLabel.setText("Barcos colocados: " + placed + "/10");
+        playButton.setDisable(placed < 10);
+    }
+
+    public void validarBarcosColocados() throws ShipsNotPlacedException {
+        if (playerBoard.getNumberOfShipsPlaced() < 10) {
+            throw new ShipsNotPlacedException();
         }
     }
 }

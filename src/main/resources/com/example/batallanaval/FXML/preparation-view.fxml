@@ -11,11 +11,17 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchorPane" onKeyPressed="#handleReturnBoat" onMouseClicked="#handleUnfocus" style="-fx-background-color: #8ebdb6" stylesheets="@../css/styles-preparation.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.batallanaval.controller.PreparationViewController">
+<AnchorPane fx:id="anchorPane" onKeyPressed="#handleReturnBoat" onMouseClicked="#handleUnfocus"
+            style="-fx-background-color: #8ebdb6"
+            stylesheets="@../css/styles-preparation.css"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.batallanaval.controller.PreparationViewController">
     <children>
         <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
             <!-- Título -->
-            <Label style="                     -fx-font-family: Consolas;                     -fx-font-size: 30px;                     -fx-font-weight: bold;                     -fx-text-fill: #063940" text="Esconde tus barcos" />
+            <Label style="-fx-font-family: Consolas; -fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #063940"
+                   text="Esconde tus barcos" />
 
             <!-- Contenedor principal para los GridPanes -->
             <HBox alignment="CENTER" spacing="50">
@@ -52,7 +58,8 @@
                 </GridPane>
 
                 <!-- GridPane de los barcos -->
-                <GridPane fx:id="showPane" style="-fx-pref-height: 396px;                         -fx-pref-width: 412px;                         -fx-grid-lines-visible: true;                         -fx-background-color: #3498db;                         -fx-border-color: black;                         -fx-border-width: 1;">
+                <GridPane fx:id="showPane" style="-fx-pref-height: 396px; -fx-pref-width: 412px; -fx-grid-lines-visible: true; -fx-background-color: #3498db; -fx-border-color: black; -fx-border-width: 1;">
+
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -68,12 +75,9 @@
 
                 <VBox>
                     <!-- Mensajes y selección de barcos -->
-                    <Label fx:id="errorLabel" alignment="CENTER" style="                             -fx-font-family: Consolas;                             -fx-font-size: 20px;                             -fx-font-weight: bold;                             -fx-text-fill: #195e63" text="Seleccione un barco" textAlignment="CENTER">
-                    </Label>
 
-                    <Label fx:id="boatLabel" alignment="CENTER" style="                             -fx-font-family: Consolas;                             -fx-font-size: 17px;                             -fx-font-weight: bold;                             -fx-text-fill: #063940" text="Barco sin seleccionar" textAlignment="CENTER">
-                    </Label>
-
+                    <Label fx:id="errorLabel" alignment="CENTER" style="-fx-font-family: Consolas; -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #195e63" text="Seleccione un barco" textAlignment="CENTER" />
+                    <Label fx:id="boatLabel" alignment="CENTER" style="-fx-font-family: Consolas; -fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: #063940" text="Barco sin seleccionar" textAlignment="CENTER" />
                     <AnchorPane fx:id="boatPane" prefHeight="80.0" prefWidth="291.0" />
                 </VBox>
             </HBox>
@@ -82,9 +86,18 @@
             <VBox alignment="CENTER" spacing="10">
                 <!-- Campo de nombre -->
                 <HBox alignment="CENTER" spacing="10">
-                    <Label style="                             -fx-font-family: Consolas;                             -fx-font-size: 20px;                             -fx-text-fill: #063940" text="Inserte su nombre:" />
+
+                    <Label style="-fx-font-family: Consolas; -fx-font-size: 20px; -fx-text-fill: #063940" text="Inserte su nombre:" />
                     <TextField fx:id="nameField" prefHeight="25.0" prefWidth="184.0" />
+                    <Label style="-fx-font-family: Consolas; -fx-font-size: 16px; -fx-text-fill: #063940;" text="                                                     Presiona R para rotar los barcos" />
                 </HBox>
+
+                <!-- NUEVO CONTADOR -->
+                <Label fx:id="boatCountLabel"
+                       style="-fx-font-family: Consolas; -fx-font-size: 20px; -fx-text-fill: #063940;"
+                       text="Barcos colocados: 0/10"
+                       alignment="CENTER" />
+
 
                 <!-- Botones -->
                 <HBox alignment="CENTER" spacing="20">
@@ -92,15 +105,8 @@
                     <Button fx:id="returnButton" onAction="#handleReturn" prefHeight="20.0" prefWidth="80.0" text="Exit" />
                 </HBox>
 
-                <!-- Label warning -->
-                <Label fx:id="warningSize" alignment="CENTER"
-                       textAlignment="CENTER"
-                       style="
-                            -fx-font-family: Consolas;
-                            -fx-font-size: 17px;
-                            -fx-font-weight: bold;
-                            -fx-text-fill: red" />
             </VBox>
         </VBox>
     </children>
 </AnchorPane>
+

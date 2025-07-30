@@ -10,6 +10,7 @@
 
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+
 <AnchorPane fx:id="anchorPane" onKeyPressed="#keyPressedTurnHandler"
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -17,28 +18,24 @@
             stylesheets="@../css/styles-game.css"
             styleClass="main-container">
     <children>
-
         <VBox styleClass="main-vbox" AnchorPane.topAnchor="0"
               AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
               AnchorPane.rightAnchor="0">
 
-            <!-- Grid pane's-->
+            <!-- Grid pane's -->
             <HBox styleClass="game-container" alignment="CENTER">
 
                 <!-- Column player -->
-                <VBox styleClass="vbox-grid">
+                <VBox styleClass="vbox-grid" alignment="CENTER">
 
                     <!-- Name Player -->
-                    <Label fx:id="nameLabel"  styleClass="players" text="Nombre : " />
+                    <Label fx:id="nameLabel" styleClass="players" text="Nombre : " />
 
-                    <!-- Grid Player-->
+                    <!-- Grid Player -->
                     <GridPane fx:id="playerGrid"
                               gridLinesVisible="true"
                               prefHeight="396.0" prefWidth="412.0"
-                              style="
-                                -fx-background-color: #3498db;
-                                -fx-border-color: black;
-                                -fx-border-radius: 1">
+                              style="-fx-background-color: #3498db; -fx-border-color: black; -fx-border-radius: 1">
                         <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
@@ -70,7 +67,7 @@
                 </VBox>
 
                 <!-- CPU column -->
-                <VBox styleClass="vbox-grid">
+                <VBox styleClass="vbox-grid" alignment="CENTER">
 
                     <!-- Name CPU -->
                     <Label text="CPU" styleClass="players" />
@@ -79,10 +76,7 @@
                     <GridPane fx:id="cpuGrid"
                               gridLinesVisible="true"
                               prefHeight="396.0" prefWidth="412.0"
-                              style="
-                                -fx-background-color: #3498db;
-                                -fx-border-color: black;
-                                -fx-border-radius: 1">
+                              style="-fx-background-color: #3498db; -fx-border-color: black; -fx-border-radius: 1">
                         <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
@@ -112,18 +106,21 @@
                     <!-- Boton mirar barcos -->
                     <Button fx:id="showButton" mnemonicParsing="false" onAction="#handleShow" text="Show Board" />
                 </VBox>
-
             </HBox>
 
             <!-- Label Mensajes -->
             <Label fx:id="messageLabel" styleClass="text" text="Mensaje: " />
 
             <!-- Label barcos hundidos -->
-            <Label fx:id="sankBoats"  styleClass="text" text="Barcos hundidos: 0" />
+            <Label fx:id="sankBoats" styleClass="text" text="Barcos hundidos: 0" />
+
+            <!-- NUEVA LABEL centrada debajo -->
+            <Label fx:id="pressNLabel" styleClass="text"
+                   text="Presiona N para pasar el turno"
+                   alignment="CENTER" maxWidth="Infinity" />
 
             <!-- Boton de regreso -->
             <Button fx:id="returnButton" onAction="#handleReturn" text="Exit" />
-
         </VBox>
     </children>
 </AnchorPane>
