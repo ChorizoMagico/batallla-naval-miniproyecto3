@@ -1,6 +1,7 @@
 package com.example.batallanaval.controller;
 
 import com.example.batallanaval.model.*;
+import exceptions.ShipsNotPlacedException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

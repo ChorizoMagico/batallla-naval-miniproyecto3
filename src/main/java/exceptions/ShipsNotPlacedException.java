@@ -1,4 +1,4 @@
-package com.example.batallanaval.controller;
+package exceptions;
 
 public class ShipsNotPlacedException extends Exception {
     public ShipsNotPlacedException() {
