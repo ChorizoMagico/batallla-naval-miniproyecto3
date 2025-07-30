@@ -113,6 +113,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
      */
     @FXML
     public void initialize(){
+
         returnButton.setOnAction(this::handleReturn);
         playButton.setOnAction(this::handlePlay);
         anchorPane.setOnKeyPressed(this::handleReturnBoat);
@@ -125,6 +126,12 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
         handleLoadBoard();
         plainTextFileHandler = new PlainTextFileHandler();
         serializableFileHandler = new SerializableFileHandler();
+    }
+
+    @FXML
+    private void handleUnfocus(MouseEvent event) {
+        // Quita el foco del nameField transfiriéndolo al anchorPane
+        anchorPane.requestFocus();
     }
 
     /**
