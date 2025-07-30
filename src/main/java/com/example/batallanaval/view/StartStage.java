@@ -2,6 +2,7 @@ package com.example.batallanaval.view;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,6 +18,10 @@ public class StartStage {
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
             stage.setTitle("Guerra de peruanos");
+
+            stage.getIcons().add(new Image(StartStage.class.getResourceAsStream("/com/example/batallanaval/Tralalero.png")));
+
+
             stage.setResizable(false);
             stage.show();
 
