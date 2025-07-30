@@ -1,6 +1,7 @@
 package com.example.batallanaval.controller;
 
 import com.example.batallanaval.model.*;
+import exceptions.ShipsNotPlacedException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -131,7 +132,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
         serializableFileHandler = new SerializableFileHandler();
 
         try {
-            validarBarcosColocados();
+            validateShipsPlaced();
             playButton.setDisable(false);
         } catch (ShipsNotPlacedException e) {
             playButton.setDisable(true);
@@ -139,8 +140,13 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     @FXML
+    /**
+     * Handles the unfocus event by requesting focus on the main anchor pane.
+     * This ensures that other UI components lose focus when clicking on empty space.
+     *
+     * @param event the mouse event that triggered the unfocus action
+     */
     private void handleUnfocus(MouseEvent event) {
-        // Quita el foco del nameField transfiriéndolo al anchorPane
         anchorPane.requestFocus();
     }
 
@@ -314,14 +320,21 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
             }
         }
     }
-
+    /**
+     * Updates the label displaying the number of boats placed by the player.
+     * Enables the play button only when all 10 boats have been placed.
+     */
     public void updateBoatCountLabel() {
         int placed = playerBoard.getNumberOfShipsPlaced();
         boatCountLabel.setText("Barcos colocados: " + placed + "/10");
         playButton.setDisable(placed < 10);
     }
-
-    public void validarBarcosColocados() throws ShipsNotPlacedException {
+    /**
+     * Validates whether all required ships have been placed on the player's board.
+     *
+     * @throws ShipsNotPlacedException if fewer than 10 ships have been placed.
+     */
+    public void validateShipsPlaced() throws ShipsNotPlacedException {
         if (playerBoard.getNumberOfShipsPlaced() < 10) {
             throw new ShipsNotPlacedException();
         }

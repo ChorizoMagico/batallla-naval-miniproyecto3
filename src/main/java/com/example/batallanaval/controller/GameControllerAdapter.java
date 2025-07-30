@@ -22,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -118,8 +119,6 @@ public abstract class GameControllerAdapter implements IGameController {
 
     @FXML
     protected GridPane playerGrid;
-
-
 
     /**
      * Sets the main scene for navigation.
@@ -262,25 +261,51 @@ public abstract class GameControllerAdapter implements IGameController {
 
                             saveState();
 
-                            if (gameOver) {
+                            if(gameOver) {
                                 turnButton.setDisable(true);
                                 playerTurn = false;
 
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                alert.setTitle("🌊 ¡Victoria!");
-                                alert.setHeaderText("🏆 Has ganado la batalla naval, el mar de bolivia esta a salvo!");
-                                alert.setContentText("¡Felicidades, comandante! Tu estrategia ha dado frutos, brrr!!.");
+                                alert.setTitle("🌊 Fin del Juego");
+                                alert.setHeaderText("⚓ ¡Victoria Naval!");
 
-                                Stage alertStage = (Stage) alert.getDialogPane().getScene().getWindow();
-                                alertStage.getIcons().add(new Image(getClass().getResourceAsStream("/src/main/resources/com/example/batallanaval/Michicup.png")));
+                                StringBuilder content = new StringBuilder();
+                                content.append("\nHas hundido todos los barcos enemigos con precisión.\n");
+                                content.append("La estrategia fue tu mejor aliada en este combate.\n\n");
+                                content.append("🚢 Felicitaciones, Capitán.\n");
+                                content.append("Presiona OK para regresar al puerto.");
 
+                                Label contentLabel = new Label(content.toString());
+                                contentLabel.getStyleClass().add("custom-alert-label");
+
+                                alert.getDialogPane().setContent(contentLabel);
 
                                 DialogPane dialogPane = alert.getDialogPane();
-                                dialogPane.getStylesheets().add(getClass().getResource("/css/alert-style.css").toExternalForm());
+                                dialogPane.getStylesheets().add(getClass().getResource("/com/example/batallanaval/css/alert-style.css").toExternalForm());
                                 dialogPane.getStyleClass().add("custom-alert");
 
+
+                                alert.setOnHidden(evt -> {
+                                    try {
+                                        // Obtener el Stage actual desde cualquier nodo
+                                        Stage stage = (Stage) stackPane.getScene().getWindow();
+
+                                        // Cargar la vista de inicio
+                                        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                                                "/com/example/batallanaval/FXML/start-view.fxml"));
+                                        Parent root = loader.load();
+                                        Scene startScene = new Scene(root);
+
+                                        // Configurar y mostrar la nueva escena
+                                        stage.setScene(startScene);
+                                        stage.setFullScreen(true);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+
+                                    }
+                                });
                                 alert.showAndWait();
-                            }
+                            };
                         }
                     }
                 });
@@ -334,7 +359,9 @@ public abstract class GameControllerAdapter implements IGameController {
         }
         gameOver = playerBoard.isGameOver();
         drawBoard.loadGridPane(playerStack, playerBoard);
-
+        System.out.println("¿Game over?: " + gameOver);
+        System.out.println("¿Player board terminado?: " + playerBoard.isGameOver());
+        System.out.println("¿CPU board terminado?: " + cpuBoard.isGameOver());
         if (gameOver) {
             turnButton.setDisable(true);
             playerTurn = false;
