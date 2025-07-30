@@ -1,5 +1,6 @@
 package com.example.batallanaval.model;
 
+import exceptions.ImageNotFoundException;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -10,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
+import java.io.InputStream;
 import java.io.Serializable;
 
 /**
@@ -67,20 +69,43 @@ public abstract class BoatAdapter implements IBoat, Serializable {
     public Node createSegment(int segmentIndex) {
         StackPane segment = new StackPane();
         Image image = null;
+        InputStream imageStream = null;
 
         switch (type) {
             case "Portaviones":
-                image = new Image(getClass().getResourceAsStream("/com/example/batallanaval/aircarrier.png"));
+                imageStream = getClass().getResourceAsStream("/com/example/batallanaval/aircarrier.png");
+                if (imageStream == null) {
+                    throw new ImageNotFoundException("No se encontró la imagen para 'Portaviones'");
+                }
+                image = new Image(imageStream);
                 break;
+
             case "Submarino":
-                image = new Image(getClass().getResourceAsStream("/com/example/batallanaval/submarine.png"));
+                imageStream = getClass().getResourceAsStream("/com/example/batallanaval/submarine.png");
+                if (imageStream == null) {
+                    throw new ImageNotFoundException("No se encontró la imagen para 'Submarino'");
+                }
+                image = new Image(imageStream);
                 break;
+
             case "Destructor":
-                image = new Image(getClass().getResourceAsStream("/com/example/batallanaval/destructor.png"));
+                imageStream = getClass().getResourceAsStream("/com/example/batallanaval/destructor.png");
+                if (imageStream == null) {
+                    throw new ImageNotFoundException("No se encontró la imagen para 'Destructor'");
+                }
+                image = new Image(imageStream);
                 break;
+
             case "Fragata":
-                image = new Image(getClass().getResourceAsStream("/com/example/batallanaval/frigate.png"));
+                imageStream = getClass().getResourceAsStream("/com/example/batallanaval/frigate.png");
+                if (imageStream == null) {
+                    throw new ImageNotFoundException("No se encontró la imagen para 'Fragata'");
+                }
+                image = new Image(imageStream);
                 break;
+
+            default:
+                throw new IllegalArgumentException("Tipo de barco no válido: " + type);
         }
 
         ImageView imgView = new ImageView(image);
