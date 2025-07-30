@@ -19,7 +19,8 @@
             stylesheets="@../css/styles-preparation.css"
             style="-fx-background-color: #8ebdb6" >
     <children>
-        <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+        <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"
+        >
             <!-- Título -->
             <Label text="Esconde tus barcos"
                    style="
@@ -125,6 +126,15 @@
                     <Button fx:id="playButton" onAction="#handlePlay" prefHeight="20.0" prefWidth="80.0" text="Play" />
                     <Button fx:id="returnButton" onAction="#handleReturn" prefHeight="20.0" prefWidth="80.0" text="Exit" />
                 </HBox>
+
+                <!-- Label warning -->
+                <Label fx:id="warningSize" alignment="CENTER"
+                       textAlignment="CENTER"
+                       style="
+                            -fx-font-family: Consolas;
+                            -fx-font-size: 17px;
+                            -fx-font-weight: bold;
+                            -fx-text-fill: red" />
             </VBox>
         </VBox>
     </children>

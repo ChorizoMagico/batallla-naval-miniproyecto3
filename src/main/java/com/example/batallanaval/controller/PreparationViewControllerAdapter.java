@@ -23,14 +23,53 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Abstract controller class for the Preparation View in the Battleship game.
+ * <p>
+ * This class implements the {@link IPreparationViewController} interface and defines
+ * the main logic for interacting with the game preparation UI. It manages boat placement,
+ * grid interaction, input validation, and transitions to the next game state.
+ *
+ * @author Juan Esteban Arias
+ * @author Junior Lasprilla Prada
+ * @author Steven Fernando Aragón
+ * @version 1.0
+ */
 public abstract class PreparationViewControllerAdapter implements IPreparationViewController {
 
+    /**
+     * The main scene to return to.
+     */
     protected Scene mainScene;
+
+    /**
+     * Grid used to track boat placements.
+     */
     protected StackPane[][] boatsStack;
+
+    /**
+     * Responsible for drawing the game board.
+     */
     protected LogicBoard.DrawBoard drawBoard;
+
+    /**
+     * UI slots for showing the available boats to place.
+     */
     protected StackPane[] boatsStackAvailable;
+
+    /**
+     * Player's game board.
+     */
     protected LogicBoard playerBoard;
+
+    /**
+     * Handles plain text file read/write operations.
+     */
     protected PlainTextFileHandler plainTextFileHandler;
+
+    /**
+     * Handles object serialization and deserialization.
+     */
     protected SerializableFileHandler serializableFileHandler;
 
     @FXML
@@ -52,6 +91,9 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     protected Label errorLabel;
 
     @FXML
+    protected Label warningSize;
+
+    @FXML
     protected Button playButton;
 
     @FXML
@@ -59,16 +101,22 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
 
     @FXML
     protected Button returnButton;
-    
+
+    /**
+     * Sets the main scene to allow returning to it.
+     *
+     * @param mainScene the main scene
+     */
     public void setMainScene(Scene mainScene) {
         this.mainScene = mainScene;
     }
 
     /**
-     * Runs all the events methods
+     * Initializes the controller and prepares the UI components and event handlers.
      */
     @FXML
     public void initialize(){
+
         returnButton.setOnAction(this::handleReturn);
         playButton.setOnAction(this::handlePlay);
         anchorPane.setOnKeyPressed(this::handleReturnBoat);
@@ -83,6 +131,12 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
         serializableFileHandler = new SerializableFileHandler();
     }
 
+    @FXML
+    private void handleUnfocus(MouseEvent event) {
+        // Quita el foco del nameField transfiriéndolo al anchorPane
+        anchorPane.requestFocus();
+    }
+
     /**
      * Handle the exit button functionality, reutirning the player to the previous scene
      * @param actionEvent the event which starts when someone clicks the exit button
@@ -92,11 +146,13 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     public void handleReturn(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(mainScene);
+        stage.setFullScreen(true);
     }
 
     /**
-     * Handle the rotate the botate and unselect boat functionality
-     * @param event event which fires when someone tries to rotate the boat or unselect it
+     * Handles keyboard input for boat rotation and deselection.
+     *
+     * @param event key event triggered by the user
      */
     @Override
     @FXML
@@ -115,7 +171,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Creates the right grid with all the available boats
+     * Creates and initializes the pane showing the available boats.
      */
     public void createShowPane(){
         showPane.getChildren().clear();
@@ -131,7 +187,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Reload the right grid with all the available boats
+     * Reloads the pane with the current list of available boats.
      */
     @Override
     public void loadShowPane(){
@@ -145,7 +201,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Shows the selected boat in a small rectangle
+     * Displays the selected boat and its type in the UI.
      */
     @Override
     public void loadShowBoatPane(){
@@ -160,51 +216,59 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Goes to the next stage, the game one
-     * @param actionEvent event which fires when someone clicks the play button
+     * Starts the game by saving the state and transitioning to the game view.
+     *
+     * @param actionEvent event triggered by clicking the play button
      */
     @Override
     @FXML
     public void handlePlay(ActionEvent actionEvent) {
         // Cierra el fxml actual y abre el fxml del juego
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
-            Parent root = fxmlLoader.load();
 
-            Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
-            String content = userPlayer.getNickname()+","+userPlayer.getSankBoats()+","+true+","+"Mensaje: Dispara!";
+        if (playerBoard.getBoats().size() == 10) {
+            warningSize.setText("");
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/batallanaval/FXML/game-view.fxml"));
+                Parent root = fxmlLoader.load();
 
-            LogicBoard cpuBoard = new LogicBoard();
-            cpuBoard.aleatorizeBoard();
+                Player userPlayer = new Player(nameField.getText(), playerBoard, 0);
+                String content = userPlayer.getNickname()+","+userPlayer.getSankBoats()+","+true+","+"Mensaje: Dispara!";
 
-            ArrayList<LogicBoard> gameBoards = new ArrayList<>();
-            gameBoards.add(playerBoard);
-            gameBoards.add(cpuBoard);
+                LogicBoard cpuBoard = new LogicBoard();
+                cpuBoard.aleatorizeBoard();
 
-            GameState gameState = new GameState(gameBoards);
+                ArrayList<LogicBoard> gameBoards = new ArrayList<>();
+                gameBoards.add(playerBoard);
+                gameBoards.add(cpuBoard);
 
-            serializableFileHandler.serialize("board_data.ser", gameState);
-            plainTextFileHandler.writeToFile("player_data.csv", content);
+                GameState gameState = new GameState(gameBoards);
 
-            // Cerramos la scene
-            GameController gameController = fxmlLoader.getController();
-            gameController.setPlayerBoard(userPlayer, cpuBoard, true, "Mensaje: Dispara!");
-            Stage currentStage = (Stage) playButton.getScene().getWindow();
-            gameController.setMainScene(currentStage.getScene());
+                serializableFileHandler.serialize("board_data.ser", gameState);
+                plainTextFileHandler.writeToFile("player_data.csv", content);
 
-            // Mostramos la neuva scene
-            Scene gameScene = new Scene(root);
-            currentStage.setScene(gameScene);
-            currentStage.setFullScreen(true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("Se termino la excepcion.");
+                // Cerramos la scene
+                GameController gameController = fxmlLoader.getController();
+                gameController.setPlayerBoard(userPlayer, cpuBoard, true, "Mensaje: Dispara!");
+                Stage currentStage = (Stage) playButton.getScene().getWindow();
+                gameController.setMainScene(currentStage.getScene());
+
+                // Mostramos la neuva scene
+                Scene gameScene = new Scene(root);
+                currentStage.setScene(gameScene);
+                currentStage.setFullScreen(true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println("Se termino la excepcion.");
+            }
+        } else {
+            warningSize.setText("Debes colocar todos los barcos.");
         }
+
     }
 
     /**
-     * Handle the event when someone selects one of the available boats in the right
+     * Sets up mouse click event handlers for selecting boats.
      */
     @Override
     public void handleBoatSelection(){
@@ -225,7 +289,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Handle the events when someone clicks the cells in which the boat will be placed
+     * Sets up mouse click event handlers for placing selected boats on the grid.
      */
     @Override
     public void handleLoadBoard() {

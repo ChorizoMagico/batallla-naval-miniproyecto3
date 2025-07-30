@@ -12,16 +12,57 @@ import javafx.scene.shape.StrokeType;
 
 import java.io.Serializable;
 
+/**
+ * Abstract base class that implements the {@code IBoat} interface and provides
+ * default behaviors and properties for different types of boats used in the Battleship-style game.
+ *
+ * <p>This class also implements {@code Serializable} to allow saving and restoring boat state.
+ * The {@code shape} field is marked {@code transient} as it is a JavaFX node that should not be serialized.</p>
+ * @author Juan Esteban Arias
+ * @author Junior Lasprilla Prada
+ * @author Steven Fernando Aragón
+ * @version 1.0
+ */
 public abstract class BoatAdapter implements IBoat, Serializable {
 
+    /**
+     * Number of segments that make up the boat.
+     */
     protected int size;
+
+    /**
+     * Remaining resistance (health) of the boat.
+     */
     protected int resistance;
+
+    /**
+     * Orientation of the boat: {@code true} if horizontal, {@code false} if vertical.
+     */
     protected boolean isHorizontal;
+
+    /**
+     * The type of boat (e.g., "Portaviones", "Submarino", etc.).
+     */
     protected String type;
+
+    /**
+     * The position of the boat on the board, as a [row, col] pair.
+     */
     protected int[] position;
+
+    /**
+     * Visual representation of the boat.
+     * Marked as {@code transient} since nodes are not serializable.
+     */
     protected transient Group shape;
 
-    
+    /**
+     * Creates a visual segment of the boat at the specified index.
+     * Loads the appropriate image depending on the boat type and orientation.
+     *
+     * @param segmentIndex The index of the segment within the boat.
+     * @return A {@code Node} representing the segment.
+     */
     @Override
     public Node createSegment(int segmentIndex) {
         StackPane segment = new StackPane();
@@ -63,21 +104,39 @@ public abstract class BoatAdapter implements IBoat, Serializable {
         return segment;
     }
 
+    /**
+     * Returns the size (number of segments) of the boat.
+     *
+     * @return The boat's size.
+     */
     @Override
     public int getSize() {
         return size;
     }
 
+    /**
+     * Returns the current resistance (health) of the boat.
+     *
+     * @return The remaining resistance value.
+     */
     @Override
     public int getResistance() {
         return resistance;
     }
 
+    /**
+     * Returns the current orientation of the boat.
+     *
+     * @return {@code true} if the boat is horizontal; {@code false} otherwise.
+     */
     @Override
     public boolean getIsHorizontal() {
         return isHorizontal;
     }
 
+    /**
+     * Decreases the boat's resistance by 1, if it is greater than 0.
+     */
     @Override
     public void reduceResistance() {
         if (resistance > 0) {
@@ -85,17 +144,31 @@ public abstract class BoatAdapter implements IBoat, Serializable {
         }
     }
 
+    /**
+     * Sets the position of the boat on the board.
+     *
+     * @param row The row index.
+     * @param col The column index.
+     */
     @Override
     public void setPosition(int row, int col) {
         position[0] = row;
         position[1] = col;
     }
 
+    /**
+     * Returns the current position of the boat on the board.
+     *
+     * @return An array containing the row and column coordinates.
+     */
     @Override
     public int[] getPosition() {
         return position;
     }
 
+    /**
+     * Configures this boat as an aircraft carrier, with a specific image and shape.
+     */
     @Override
     public void createAircraftCarrier() {
 
@@ -115,6 +188,9 @@ public abstract class BoatAdapter implements IBoat, Serializable {
         type = "Portaviones";
     }
 
+    /**
+     * Configures this boat as a submarine, with a specific image and shape.
+     */
     @Override
     public void createSubmarine() {
 
@@ -132,6 +208,9 @@ public abstract class BoatAdapter implements IBoat, Serializable {
         type = "Submarino";
     }
 
+    /**
+     * Configures this boat as a destroyer, with a specific image and shape.
+     */
     @Override
     public void createDestructor(){
         Rectangle water = new Rectangle(41.0, 82.0);
@@ -148,6 +227,9 @@ public abstract class BoatAdapter implements IBoat, Serializable {
         type = "Destructor";
     }
 
+    /**
+     * Configures this boat as a frigate, with a specific image and shape.
+     */
     @Override
     public void createFrigate(){
         Rectangle water = new Rectangle(41.0, 41.0);
@@ -164,6 +246,9 @@ public abstract class BoatAdapter implements IBoat, Serializable {
         type = "Fragata";
     }
 
+    /**
+     * Rotates the boat's orientation and updates the visual representation.
+     */
     @Override
     public void rotateTheBoat(){
         isHorizontal = !isHorizontal;
@@ -177,11 +262,21 @@ public abstract class BoatAdapter implements IBoat, Serializable {
         shape.setRotate(rotation);
     }
 
+    /**
+     * Returns the group that visually represents the boat.
+     *
+     * @return The boat's shape as a {@code Group}.
+     */
     @Override
     public Group getShape(){
         return shape;
     }
 
+    /**
+     * Returns the type of the boat.
+     *
+     * @return A string representing the boat type (e.g., "Fragata").
+     */
     @Override
     public String getType(){
         return type;

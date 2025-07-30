@@ -15,24 +15,47 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Abstract controller class for the start view of the Battleship game.
+ * <p>
+ * This class provides the logic for handling the main buttons: "Start Play", "Continue Play",
+ * "Instructions", and "Exit". It also initializes the file handlers used to save and load game data.
+ * </p>
+ *
+ * <p>Implements {@link IStartViewController} and uses JavaFX annotations.</p>
+ * @author Juan Esteban Arias
+ * @author Junior Lasprilla Prada
+ * @author Steven Fernando Aragón
+ * @version 1.0
+ */
 public abstract class StartViewControllerAdapter implements IStartViewController {
 
+    /** Button to start a new game. */
     @FXML
     protected Button startPlayButton;
 
-
+    /** Button to continue a previously saved game. */
     @FXML
     protected Button continuePlayButton;
 
+    /** Button to show game instructions. */
     @FXML
     protected Button instructionsButton;
 
+    /** Button to exit the game. */
     @FXML
     protected Button exitPlayButton;
 
+    /** Handler for reading and writing plain text files. */
     protected PlainTextFileHandler plainTextFileHandler;
+
+    /** Handler for serializing and deserializing game objects. */
     protected SerializableFileHandler serializableFileHandler;
 
+    /**
+     * Initializes the controller by creating file handlers and setting the actions
+     * for each button in the main menu.
+     */
     @Override
     @FXML
     public void initialize() {
@@ -44,6 +67,12 @@ public abstract class StartViewControllerAdapter implements IStartViewController
         exitPlayButton.setOnAction(this::handleExit);
     }
 
+    /**
+     * Handles the event when the "Start Play" button is pressed.
+     * Loads the preparation view and sets it as the current scene.
+     *
+     * @param actionEvent The event triggered by clicking the button.
+     */
     @Override
     public void handlePlay(ActionEvent actionEvent) {
         // Cierra el fxml actual y abre el fxml del juego
@@ -69,6 +98,12 @@ public abstract class StartViewControllerAdapter implements IStartViewController
         }
     }
 
+    /**
+     * Handles the event when the "Continue Play" button is pressed.
+     * Attempts to load previously saved game data from files and switch to the game scene.
+     *
+     * @param actionEvent The event triggered by clicking the button.
+     */
     @Override
     public void handleContinue(ActionEvent actionEvent) {
 
@@ -131,6 +166,12 @@ public abstract class StartViewControllerAdapter implements IStartViewController
         }
     }
 
+    /**
+     * Handles the event when the "Instructions" button is pressed.
+     * Loads the instructions view and sets it as the current scene.
+     *
+     * @param actionEvent The event triggered by clicking the button.
+     */
     @Override
     public void handleInstructions (ActionEvent actionEvent) {
         try {
@@ -154,7 +195,12 @@ public abstract class StartViewControllerAdapter implements IStartViewController
     }
 
 
-    // Cierra la aplicacion
+    /**
+     * Handles the event when the "Exit" button is pressed.
+     * Closes the application.
+     *
+     * @param actionEvent The event triggered by clicking the button.
+     */
     @Override
     public void handleExit (ActionEvent actionEvent) {
         Platform.exit();

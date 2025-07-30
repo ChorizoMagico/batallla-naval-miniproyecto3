@@ -5,61 +5,81 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
-
+/**
+ * Interface for the Preparation View Controller in the Battleship game.
+ * <p>
+ * Handles user interactions during the preparation phase, such as boat placement,
+ * rotation, and transitioning to the game phase.
+ *
+ * @author Juan Esteban Arias
+ * @author Junior Lasprilla Prada
+ * @author Steven Fernando Aragón
+ * @version 1.0
+ */
 public interface IPreparationViewController {
 
+    /**
+     * Sets the main scene of the application.
+     *
+     * @param mainScene the main JavaFX scene
+     */
     void setMainScene(Scene mainScene);
 
     /**
-     * Runs all the events methods
+     * Initializes the preparation view. Sets up event handlers and visual components.
      */
     @FXML
     void initialize();
 
 
     /**
-     * Handle the exit button functionality, reutirning the player to the previous scene
-     * @param actionEvent the event which starts when someone clicks the exit button
+     * Handles the event triggered when the user clicks the "Return" button.
+     * Returns the player to the previous scene.
+     *
+     * @param actionEvent the event triggered by the button click
      */
     @FXML
     void handleReturn(ActionEvent actionEvent);
 
     /**
-     * Handle the rotate the boat and unselect boat functionality
-     * @param event event which fires when someone tries to rotate the boat or unselect it
+     * Handles the event triggered when the user presses a key to rotate or unselect the boat.
+     *
+     * @param event the keyboard event
      */
     @FXML
     void handleReturnBoat(KeyEvent event);
 
     /**
-     * Creates the right grid with all the available boats
+     * Creates the pane on the right side of the UI displaying all available boats.
      */
     void createShowPane();
 
     /**
-     * Reload the right grid with all the available boats
+     * Reloads the right-side pane with all available boats.
      */
     void loadShowPane();
 
     /**
-     * Shows the selected boat in a small rectangle
+     * Displays the currently selected boat in a preview area.
      */
     void loadShowBoatPane();
 
     /**
-     * Goes to the next stage, the game one
-     * @param actionEvent event which fires when someone clicks the play button
+     * Handles the event triggered when the user clicks the "Play" button.
+     * Proceeds to the game phase.
+     *
+     * @param actionEvent the event triggered by the button click
      */
     @FXML
     void handlePlay(ActionEvent actionEvent);
 
     /**
-     * Handle the event when someone selects one of the available boats in the right
+     * Handles the logic when a player selects one of the available boats on the right panel.
      */
     void handleBoatSelection();
 
     /**
-     * Handle the events when someone clicks the cells in which the boat will be placed
+     * Handles events related to clicking cells on the board to place boats.
      */
     void handleLoadBoard();
 
