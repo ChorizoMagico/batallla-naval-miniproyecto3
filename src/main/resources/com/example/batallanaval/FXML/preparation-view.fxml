@@ -91,6 +91,15 @@
                     <Button fx:id="playButton" onAction="#handlePlay" prefHeight="20.0" prefWidth="80.0" text="Play" />
                     <Button fx:id="returnButton" onAction="#handleReturn" prefHeight="20.0" prefWidth="80.0" text="Exit" />
                 </HBox>
+
+                <!-- Label warning -->
+                <Label fx:id="warningSize" alignment="CENTER"
+                       textAlignment="CENTER"
+                       style="
+                            -fx-font-family: Consolas;
+                            -fx-font-size: 17px;
+                            -fx-font-weight: bold;
+                            -fx-text-fill: red" />
             </VBox>
         </VBox>
     </children>
