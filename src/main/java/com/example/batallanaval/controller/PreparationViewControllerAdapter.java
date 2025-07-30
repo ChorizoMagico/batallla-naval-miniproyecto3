@@ -23,14 +23,53 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Abstract controller class for the Preparation View in the Battleship game.
+ * <p>
+ * This class implements the {@link IPreparationViewController} interface and defines
+ * the main logic for interacting with the game preparation UI. It manages boat placement,
+ * grid interaction, input validation, and transitions to the next game state.
+ *
+ * @author Juan Esteban Arias
+ * @author Junior Lasprilla Prada
+ * @author Steven Fernando Aragón
+ * @version 1.0
+ */
 public abstract class PreparationViewControllerAdapter implements IPreparationViewController {
 
+    /**
+     * The main scene to return to.
+     */
     protected Scene mainScene;
+
+    /**
+     * Grid used to track boat placements.
+     */
     protected StackPane[][] boatsStack;
+
+    /**
+     * Responsible for drawing the game board.
+     */
     protected LogicBoard.DrawBoard drawBoard;
+
+    /**
+     * UI slots for showing the available boats to place.
+     */
     protected StackPane[] boatsStackAvailable;
+
+    /**
+     * Player's game board.
+     */
     protected LogicBoard playerBoard;
+
+    /**
+     * Handles plain text file read/write operations.
+     */
     protected PlainTextFileHandler plainTextFileHandler;
+
+    /**
+     * Handles object serialization and deserialization.
+     */
     protected SerializableFileHandler serializableFileHandler;
 
     @FXML
@@ -59,13 +98,18 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
 
     @FXML
     protected Button returnButton;
-    
+
+    /**
+     * Sets the main scene to allow returning to it.
+     *
+     * @param mainScene the main scene
+     */
     public void setMainScene(Scene mainScene) {
         this.mainScene = mainScene;
     }
 
     /**
-     * Runs all the events methods
+     * Initializes the controller and prepares the UI components and event handlers.
      */
     @FXML
     public void initialize(){
@@ -95,8 +139,9 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Handle the rotate the botate and unselect boat functionality
-     * @param event event which fires when someone tries to rotate the boat or unselect it
+     * Handles keyboard input for boat rotation and deselection.
+     *
+     * @param event key event triggered by the user
      */
     @Override
     @FXML
@@ -115,7 +160,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Creates the right grid with all the available boats
+     * Creates and initializes the pane showing the available boats.
      */
     public void createShowPane(){
         showPane.getChildren().clear();
@@ -131,7 +176,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Reload the right grid with all the available boats
+     * Reloads the pane with the current list of available boats.
      */
     @Override
     public void loadShowPane(){
@@ -145,7 +190,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Shows the selected boat in a small rectangle
+     * Displays the selected boat and its type in the UI.
      */
     @Override
     public void loadShowBoatPane(){
@@ -160,8 +205,9 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Goes to the next stage, the game one
-     * @param actionEvent event which fires when someone clicks the play button
+     * Starts the game by saving the state and transitioning to the game view.
+     *
+     * @param actionEvent event triggered by clicking the play button
      */
     @Override
     @FXML
@@ -203,7 +249,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Handle the event when someone selects one of the available boats in the right
+     * Sets up mouse click event handlers for selecting boats.
      */
     @Override
     public void handleBoatSelection(){
@@ -224,7 +270,7 @@ public abstract class PreparationViewControllerAdapter implements IPreparationVi
     }
 
     /**
-     * Handle the events when someone clicks the cells in which the boat will be placed
+     * Sets up mouse click event handlers for placing selected boats on the grid.
      */
     @Override
     public void handleLoadBoard() {

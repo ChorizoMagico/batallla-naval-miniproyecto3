@@ -18,29 +18,77 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+/**
+ * Abstract adapter class that implements the {@link IGameController} interface.
+ * <p>
+ * This class provides the main game logic, including board setup, attack handling,
+ * turn switching, game state saving, and UI management.
+ *
+ * @author Juan Esteban Arias
+ * @author Junior Lasprilla Prada
+ * @author Steven Fernando Aragón
+ * @version 1.0
+ */
 public abstract class GameControllerAdapter implements IGameController {
+
+    /**
+     * The main application scene to return to after exiting the game view.
+     */
     protected Scene mainScene;
 
+    /**
+     * The player object representing the user.
+     */
     protected Player userPlayer;
 
+    /**
+     * The logic board for the user player.
+     */
     protected LogicBoard playerBoard;
 
+    /**
+     * The logic board for the computer opponent.
+     */
     protected LogicBoard cpuBoard;
 
+    /**
+     * Drawing utility for rendering boards and shots.
+     */
     protected LogicBoard.DrawBoard drawBoard;
 
+    /**
+     * Indicates whether the game is over.
+     */
     protected boolean gameOver;
 
+    /**
+     * Grid representation for the player.
+     */
     protected StackPane[][] playerStack;
 
+    /**
+     * Grid representation for the CPU.
+     */
     protected StackPane[][] cpuStack;
 
+    /**
+     * Indicates whether it is the player's turn.
+     */
     protected boolean playerTurn;
 
+    /**
+     * Flag to indicate if the full CPU board is currently visible.
+     */
     protected boolean boardShowing;
 
+    /**
+     * Utility for handling plain text file operations.
+     */
     protected PlainTextFileHandler plainTextFileHandler;
 
+    /**
+     * Utility for handling serialized file operations.
+     */
     protected SerializableFileHandler serializableFileHandler;
 
 
@@ -65,11 +113,20 @@ public abstract class GameControllerAdapter implements IGameController {
     @FXML
     protected GridPane playerGrid;
 
+    /**
+     * Sets the main scene for navigation.
+     *
+     * @param mainScene the scene to return to
+     */
     @Override
     public void setMainScene(Scene mainScene) {
         this.mainScene = mainScene;
     }
 
+    /**
+     * Initializes the game, setting up the boards, event handlers,
+     * and user interface elements.
+     */
     @Override
     public void initializeGame() {
         gameOver = playerBoard.isGameOver() || cpuBoard.isGameOver();
@@ -93,6 +150,9 @@ public abstract class GameControllerAdapter implements IGameController {
         turnButton.setOnAction(this::handleTurn);
     }
 
+    /**
+     * Saves the current game state to external files.
+     */
     @Override
     public void saveState(){
         String content = userPlayer.getNickname()+","+userPlayer.getSankBoats()+","+playerTurn+","+messageLabel.getText();
@@ -105,6 +165,11 @@ public abstract class GameControllerAdapter implements IGameController {
         serializableFileHandler.serialize("board_data.ser", gameState);
     }
 
+    /**
+     * Handles showing or hiding the full CPU board when toggled.
+     *
+     * @param event the user action event
+     */
     @Override
     @FXML
     public void handleShow(ActionEvent event) {
@@ -119,6 +184,11 @@ public abstract class GameControllerAdapter implements IGameController {
         }
     }
 
+    /**
+     * Handles the return to the main scene, saving the state beforehand.
+     *
+     * @param actionEvent the action event triggered by user
+     */
     @Override
     @FXML
     public void handleReturn(ActionEvent actionEvent) {
@@ -128,6 +198,9 @@ public abstract class GameControllerAdapter implements IGameController {
         stage.setScene(mainScene);
     }
 
+    /**
+     * Sets up event listeners on the CPU board grid for attack interactions.
+     */
     @Override
     public void handleAttack(){
         for(int i = 0; i < 10; i++){
@@ -184,11 +257,21 @@ public abstract class GameControllerAdapter implements IGameController {
         }
     }
 
+    /**
+     * Proceeds with the turn when the turn button is pressed.
+     *
+     * @param event the action event triggered by user
+     */
     @FXML
     public void handleTurn(ActionEvent event) {
         nextTurn();
     }
 
+    /**
+     * Handles key press events related to turn switching.
+     *
+     * @param event the key event triggered
+     */
     @FXML
     public void keyPressedTurnHandler(KeyEvent event) {
         if(event.getCode() == KeyCode.N && !gameOver && !playerTurn) {
@@ -196,6 +279,9 @@ public abstract class GameControllerAdapter implements IGameController {
         }
     }
 
+    /**
+     * Executes the logic for the CPU's turn and updates the UI accordingly.
+     */
     public void nextTurn(){
         int result = playerBoard.randomShooting();
 
@@ -228,11 +314,22 @@ public abstract class GameControllerAdapter implements IGameController {
         }
     }
 
+    /**
+     * Updates the label displaying how many boats the player has sunk.
+     */
     public void updateSankBoatsLabel() {
         userPlayer.updateSankBoats();
         sankBoats.setText("Barcos hundidos : "+ userPlayer.getSankBoats());
     }
 
+    /**
+     * Sets the initial state of the game using player data and prepares the game scene.
+     *
+     * @param userPlayer the human player
+     * @param cpuBoard the CPU opponent's board
+     * @param playerTurn whether the human goes first
+     * @param customMessageLabel the starting message to show in the UI
+     */
     public void setPlayerBoard(Player userPlayer, LogicBoard cpuBoard, boolean playerTurn, String customMessageLabel) {
         this.userPlayer = userPlayer;
         this.playerBoard = userPlayer.getPlayerBoard();
